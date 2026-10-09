@@ -9,3 +9,7 @@
 - PLANNED: pure C# facility graph and causal cooling chain after Gate A.
 - NOTE: The generated scene is NOT checked into this branch until Unity creates and validates it. README explicitly describes generation.
 
+
+## 2026-10-08 additional gate
+- GitHub Actions workflow has been authored; actual CI run and its exit status NOT RUN/NOT OBSERVED as of authoring. Static workflow success, if later seen, cannot certify Unity.
+- Phase 1A/1B source was not compiled in this session. No generated scene or packages-lock.json was fabricated.

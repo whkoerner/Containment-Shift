@@ -27,3 +27,9 @@ As of 2026-10-08, **no Unity Editor invocation, C# compilation, Unity tests, sta
 | Facility causality / destruction / Steam voice | NOT RUN — not implemented |
 
 The static JSON/meta check is not a substitute for checking missing Unity references, serialization behavior, renderer settings, compiler errors or gameplay. Update this file only when actual new evidence exists.
+
+## 2026-10-08 — Phase 2 repository-only work
+- GitHub live readback: main `86a0ab473422531a5e2be815390c41fb9999fe51`, draft PR #1 at `48cb648205f5230038ffda75a98e702abbd60867` before edits; no Actions runs, issue records or PR review comments found.
+- Published the canonical 63-task execution plan, current queue and future-session handoff at `e244878d145cbd2e8208a424e3cb68c7626346f7` (GitHub write returned success).
+- Runtime tool probe: `git` exists; Unity Editor and `dotnet` executables were not found. **No Unity import, compilation, scene or player run.**
+- Added static validator and Actions workflow as source. Their execution must be recorded only after an actual run; do not mark PASS from code presence.

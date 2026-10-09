@@ -28,6 +28,12 @@ namespace ContainmentShift.Player
 
         public void Configure(Transform pivot) => viewPitchPivot = pivot;
 
+        private void OnDisable()
+        {
+            if (Cursor.lockState == CursorLockMode.Locked)
+                Cursor.lockState = CursorLockMode.None;
+        }
+
         private void Update()
         {
             Keyboard keyboard = Keyboard.current;

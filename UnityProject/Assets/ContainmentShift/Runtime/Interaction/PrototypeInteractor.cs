@@ -26,6 +26,7 @@ namespace ContainmentShift.Interaction
             if (Physics.Raycast(viewCamera.transform.position, viewCamera.transform.forward,
                 out RaycastHit hit, reach, ~0, QueryTriggerInteraction.Ignore))
             {
+                // Ignore the player body/own collider and do not act through it.
                 focused = hit.collider.GetComponentInParent<PrototypeInteractable>();
             }
 
