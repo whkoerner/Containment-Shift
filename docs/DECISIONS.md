@@ -20,3 +20,6 @@ A Unity Editor menu creates the actual scene using Unity APIs, registers it in b
 - https://docs.unity3d.com/Packages/com.unity.test-framework@1.6/manual/index.html
 - https://github.com/Unity-Technologies/Graphics/blob/master/Packages/com.unity.render-pipelines.universal/CHANGELOG.md
 - https://github.com/FirstGearGames/FishNet/releases
+
+## D-005 Authoritative task catalog and static-only CI (2026-10-08)
+PROJECT_EXECUTION_PLAN.md owns every milestone/task ID and test gate; ROADMAP.md is only a pointer and CURRENT_TASKS.md/ NEXT_SESSION.md are views. Keep the prior nine Astra docs intact and treat published scope as architecture hypotheses, not verified behavior. Add lightweight static repository validation independent of the Unity runtime. Green static checks are never sufficient to merge the playable gate. GitHub issues are desirable but the currently accessible GitHub connector cannot create issues; retain task IDs in-repository until that action is available.

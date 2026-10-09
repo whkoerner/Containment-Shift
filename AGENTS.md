@@ -1,13 +1,12 @@
-# AI developer handoff — Containment Shift
+# AGENTS.md — mandatory engineering rules
 
-1. Read README.md and docs/architecture/FIRST_VERTICAL_SLICE.md, then DECISIONS.md, NOT_RUN.md and TEST_RESULTS.md before edits.
-2. Repository is solely whkoerner/Containment-Shift. Do not touch Rocky/Chordic repositories.
-3. Keep main stable; use focused branches + PRs; do not merge without a verified Unity import/build or explicit owner approval.
-4. Do not confuse source presence with compiled/playable behavior. Every PR must state IMPLEMENTED — UNVERIFIED, TESTED, PARTIAL, BLOCKED, etc., and include actual test evidence.
-5. Engine project lives in UnityProject/. Commit Assets/.meta, Packages/, ProjectSettings/; ignore Unity caches. Keep precise editor/package pin evidence.
-6. World gameplay state authority belongs to server. The local Phase 1A/1B scripts are disposable/adaptable presentation prototypes ONLY; no networked/world-damage code should depend directly on their toggle state.
-7. Facility Domain must remain pure C# and independent of UnityEngine/FishNet; real networking awaits Gate A SDK spike and multi-process proof.
-8. Maintain stable IDs, revisions and typed commands in authoritative systems; no client-only damage, repair, rewards or prop authority. Never introduce a second networking SDK in the production project.
-9. Begin by running the Unity generator menu; inspect generated scene in the Editor, then save and commit scene plus .meta in a separate PR after validation.
-10. Never invent measurements or green test results. Record precise editor versions, console logs and peers in docs/TEST_RESULTS.md and docs/NOT_RUN.md. No cloud secrets in repo.
-
+## Start here before editing
+1. Authenticate **GitHub** and inspect live `whkoerner/Containment-Shift` branches, current draft PR #1, changed files, reviews and Actions; do not trust prior SHA.
+2. Read [README.md](README.md), **[docs/PROJECT_EXECUTION_PLAN.md](docs/PROJECT_EXECUTION_PLAN.md)** (authoritative ordered task IDs), [docs/CURRENT_TASKS.md](docs/CURRENT_TASKS.md), [docs/NEXT_SESSION.md](docs/NEXT_SESSION.md), [docs/TEST_RESULTS.md](docs/TEST_RESULTS.md), [docs/NOT_RUN.md](docs/NOT_RUN.md), [docs/BUGS.md](docs/BUGS.md), [docs/DECISIONS.md](docs/DECISIONS.md), [docs/TEST_PLAN.md](docs/TEST_PLAN.md), and the nine documents in `docs/architecture/` before implementation.
+3. Identify one **CURRENT** task ID and its dependencies; fix only that task and blocking safe issues. Use a focused commit on the existing branch/PR when appropriate. Do not create a parallel roadmap or project.
+4. Unity project root is `UnityProject/`. Commit required `Assets/*.meta`, `Packages/`, `ProjectSettings/`. Exclude Library/, Temp/, Logs/, generated binaries, credentials. Scene must be generated and inspected in the **real Unity Editor**, never fabricated as YAML.
+5. Keep gameplay authority in one local/host-server application core; prototypes using direct `MonoBehaviour` local toggles are **not** authoritative online systems. Domain is plain C# independent of UnityEngine/FishNet. For grabs use bounded leases, server validation and collision; stable IDs and schema/revisions. No second networking SDK.
+6. Exact Unity candidate: `6000.3.25f1`. Input System 1.20.1, URP 17.3.0, Test Framework 1.6.0 are **requested only**, not proven resolved. FishNet 4.7.3R **provisional and not installed**. Record actual resolved lock, license and environment.
+7. Never claim a source/JSON/static workflow PASS as Unity compile, scene Play, standalone game or multiplayer PASS. Record command/UI path, UTC timestamp, SHA, system, expected/actual, evidence in `docs/TEST_RESULTS.md`; leave unrun checks in `docs/NOT_RUN.md`. Bugs need reproduction; potential risks are not confirmed defects.
+8. Keep main stable; PR includes task IDs, intended player-visible behavior, tests executed and NOT RUN, blockers and next work. Do not merge unverified source or change repo visibility or unrelated Rocky/Chordic repositories.
+9. After every session update README, PROJECT_EXECUTION_PLAN status, CURRENT_TASKS, NEXT_SESSION SHA/next instructions, DECISIONS, TEST_PLAN, TEST_RESULTS, NOT_RUN, BUGS, DEVELOPMENT_LOG as applicable; output a complete next-session copyable prompt and exact owner actions. Never inflate contribution history.

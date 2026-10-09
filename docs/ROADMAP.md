@@ -1,14 +1,15 @@
-# Incremental roadmap — statuses recorded 2026-10-08
+# ROADMAP (index only)
 
-| Checkpoint | Scope | Status |
-|---|---|---|
-| Phase 1A source | Unity folder, package/editor manifest, source-based scene generator, capsule motor, camera, gravity | IMPLEMENTED — UNVERIFIED |
-| Phase 1A runnable | Unity compilation, generated scene saved, first-person movement confirmed in editor and Windows build | BLOCKED: requires installed Unity |
-| Phase 1B source | Reusable raycast interaction, bounded rigidbody held object, drop/throw, hinged door, switch | IMPLEMENTED — UNVERIFIED |
-| Phase 1B behavior | Actual reach/collision, prop contacts, input, responsive grab feel | NOT RUN |
-| Gate A networking spike | FishNet release pin, host & 1/3 clients, authoritative held prop, door state, reconciliation, contested/disconnect tests | PLANNED |
-| Phase 1D causal domain | Pump / pipe / valve / leak / warning, typed commands & finite resource invariants | DEFERRED until authority setup |
-| First complete slice Gates B–D | One mission, destructible authored pieces, one creature, save/reconnect, Steam route and all crew sizes | PLANNED |
+**[PROJECT_EXECUTION_PLAN.md](PROJECT_EXECUTION_PLAN.md) is the authoritative milestone/task plan with stable IDs, evidence requirements, prerequisites and actual statuses.** This index intentionally has no separate status list to avoid conflicting sources of truth.
 
-Next highest-priority task: in Unity 6000.3.25f1 import this branch, fix any concrete errors, run EditMode tests, generate and validate the graybox scene, then commit the generated scene+meta and build a Windows standalone. Only then implement FishNet Gate A.
+0. Architecture and repository discipline.
+1. Unity import → local graybox → proven 2/4-process network prototype → first connected facility mechanism.
+2. Server-authoritative physics and repair interactions.
+3. Incremental power, coolant, pressure, smoke, fire and damage causality.
+4. One complete solo-viable 1–4-player mission.
+5. Bounded seeded facility replayability.
+6. Original horror, industrial identity, lighting, audio and physics comedy.
+7. Performance, UX, accessibility, stability and save/load.
+8. Steam and commercial launch, with legal and external QA gates.
 
+Next action: [CURRENT_TASKS.md](CURRENT_TASKS.md); exact AI resumption: [NEXT_SESSION.md](NEXT_SESSION.md).
