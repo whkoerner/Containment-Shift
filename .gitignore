@@ -1,0 +1,33 @@
+# Unity generated state - never commit
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+[Aa]ssets/AssetStoreTools*
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.slnx
+*.user
+*.pidb
+*.booproj
+*.unityproj
+*.suo
+*.tmp
+*.bak
+*.opendb
+*.VC.db
+*.pdb
+*.mdb
+*.log
+.DS_Store
+Thumbs.db
+# Keep all Unity .meta files and authored Assets, Packages and ProjectSettings tracked.
+
