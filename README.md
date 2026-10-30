@@ -2,6 +2,18 @@
 
 Working title: **Containment Shift** — a planned 1–4 player industrial disaster co-op game in which the facility itself is a systemic threat.
 
+## Local development workforce
+
+[Install and use the Ollama workforce](docs/WORKFORCE_SETUP.md) · [REAL-TIME TESTS](docs/REAL_TIME_TESTS.md) · [Test evidence](TEST_RESULTS.md)
+
+On this branch, double-click **INSTALL_WORKFORCE.cmd** on Windows. Setup preserves
+the old AI workspace, runs the runtime regression suite locally, and creates
+Start, Stop and Save, Emergency Stop, Play, Feedback, and Status shortcuts.
+
+This branch includes the imported Unity `6000.6.7f1`/NGO prototype and an input
+backend repair. Windows execution, Unity compilation and gameplay from this
+branch remain unverified until the local checks and human playtest run.
+
 ## Architecture review
 
 Review date: October 8, 2026. Start with [Architecture Decision](docs/architecture/ARCHITECTURE_DECISION.md) and [First Vertical Slice](docs/architecture/FIRST_VERTICAL_SLICE.md).
@@ -22,6 +34,10 @@ The provisional direction is Unity 6.3 LTS, URP, host-authoritative multiplayer,
 
 ## Implementation status
 
-**PLANNED — NOT TESTED.** This repository currently contains architecture documentation, not a playable game. No Unity compilation, gameplay tests, multiplayer sessions or performance benchmarks have been executed for this project. Documentation packaging checks do not establish gameplay feasibility.
+**IMPORTED PROTOTYPE — CURRENT BRANCH GAMEPLAY NOT VERIFIED.** The earlier
+documents-only state is preserved in Git history. This branch includes imported
+Unity source and workforce code; existing historical reports of controls working
+do not establish gameplay from this checkout. Cloud runtime checks do not
+establish Unity compilation, multiplayer correctness, or gameplay feasibility.
 
 Implementation should follow the vertical-slice gates before expanding content. Record actual build and multi-instance test evidence; never count placeholder classes as completed features.

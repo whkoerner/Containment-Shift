@@ -1,0 +1,53 @@
+name: Workforce runtime
+on:
+  push:
+    paths: ['tools/workforce/**', '.github/workflows/workforce-runtime.yml']
+  pull_request:
+    paths: ['tools/workforce/**', '.github/workflows/workforce-runtime.yml']
+permissions:
+  contents: read
+jobs:
+  runtime:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r tools/workforce/requirements.txt
+      - run: python -m unittest discover -s tools/workforce -p test_agent.py -v
+      - name: Parse Windows setup scripts
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem tools/workforce/*.ps1
+          foreach ($file in $files) {
+            $parseErrors = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$null, [ref]$parseErrors)
+            if ($parseErrors) { throw ($parseErrors | Out-String) }
+          }
+      - name: Test installer Git argument forwarding
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          try { ./tools/workforce/Test-Setup.ps1 }
+          catch { Write-Output ("::error::" + $_.Exception.Message); throw }
+      - name: Test dependency detection in Windows PowerShell 5.1
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          try { ./tools/workforce/Test-Setup.ps1 }
+          catch { Write-Output ("::error::" + $_.Exception.Message); throw }
+      - name: Test Windows shortcuts and repair
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: ./tools/workforce/Test-Shortcuts.ps1
+      - name: Test checkout preservation in Windows PowerShell 5.1
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          try { ./tools/workforce/Test-Checkout.ps1 }
+          catch { Write-Output ("::error::" + $_.Exception.Message); throw }

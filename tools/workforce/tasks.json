@@ -1,0 +1,29 @@
+[
+  {
+    "id": "foundation-input",
+    "title": "Validate input backend, owner controller, camera and grounded movement",
+    "kind": "foundation",
+    "priority": 100,
+    "depends": [],
+    "acceptance": "Saved backend enables Input System; Unity compile and synthetic Play Mode movement smoke pass; human confirms WASD, look, sprint, jump, collision, Escape and disconnect/reconnect.",
+    "research": ["Unity-Technologies/InputSystem", "Unity-Technologies/com.unity.netcode.gameobjects", "Showerss/unity-first-person-controller"]
+  },
+  {
+    "id": "network-ownership",
+    "title": "Inspect and repair NGO owner input and camera lifecycle",
+    "kind": "code",
+    "priority": 90,
+    "depends": ["foundation-input"],
+    "acceptance": "Owner alone reads input and enables camera; host/client independently move and disconnect cleanly. Independent two-client human verification required.",
+    "research": ["Unity-Technologies/com.unity.multiplayer.samples.bitesize", "Unity-Technologies/com.unity.netcode.gameobjects"]
+  },
+  {
+    "id": "interaction-research",
+    "title": "Research licensed NGO interaction examples; produce a compatibility decision",
+    "kind": "research",
+    "priority": 30,
+    "depends": [],
+    "acceptance": "Pinned revisions, license bodies, dependency caveats, and integration recommendation saved. No gameplay progress claimed.",
+    "research": ["Unity-Technologies/com.unity.multiplayer.samples.coop", "Unity-Technologies/com.unity.multiplayer.samples.bitesize"]
+  }
+]

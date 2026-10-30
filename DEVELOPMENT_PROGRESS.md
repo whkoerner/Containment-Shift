@@ -1,4 +1,4 @@
-﻿# Containment Shift development progress
+# Containment Shift development progress
 
 ## GitHub Unity import - 2026-10-30 12:35:08 -07:00
 - Source: Local Unity project (read-only; private path deliberately omitted).
@@ -8,3 +8,41 @@
 - Excluded: Library/, Temp/, Obj/, Logs/, UserSettings/, local AI workspace metadata.
 - Compilation: NOT RUN. Unity Play Mode: NOT RUN. Networking: NOT RUN.
 - Next: open this checkout through Unity Hub, compile and test movement.
+# Workforce implementation — October 30, 2026
+
+Next setup repair: select a supported Python candidate quietly and preserve the
+reported dirty original checkout by using one linked workforce checkout. No
+automatic commit/publication/import of unseen uncommitted user files is attempted.
+New Windows integration checks verify source bytes, staged diff, HEAD/branch,
+worktree reuse, preservation of committed work and rejection of dirty worktree
+updates. Local laptop installation remains unverified until setup runs there.
+
+Installer repair: user-reported `Git.Git` already-installed/no-upgrade failure
+prevented runtime installation and shortcuts. Fixed PowerShell function/application
+name collision in Git detection, added explicit application lookups, recognized
+known WinGet already-installed/current results, and refreshed PATH before rechecking
+dependencies. Native Windows regression checks cover the actual collision and
+simulated WinGet exit responses; no local laptop success is assumed.
+
+Base inspected: `9946a89a9d7d03172d7ddc6ed3595bd83ad6cb08`.
+
+**CHANGED:** Added local Ollama controller, persistent tasks/recovery, license
+research, reviewed bounded patches, Unity verification entry points, Windows
+installer and six shortcut actions, dashboard, feedback and Git reports. Fixed
+the imported input backend setting to Both. Existing scene/prefab GUIDs retained.
+
+**TESTED:** Cloud runtime suite: 20 passed, 4 skipped for process-inventory
+namespace mismatch. The full 24-test runtime suite subsequently passed Windows
+and Ubuntu CI at `1294f829a1904bb7656c9a3772b621cc86968a55`; Windows also passed
+PowerShell parsing and installer Git-argument integration. See `TEST_RESULTS.md`
+for the explicit substitutes and limits.
+
+**NOT VERIFIED:** Installation on the user's Windows laptop, actual model inference, Unity compilation,
+synthetic movement, standalone build, physical controls and multiplayer.
+
+**NEXT:** Run Windows setup, then foundation verification and a human playtest.
+The agent will stop at missing prerequisites or human gates instead of claiming
+success. Automatic runtime self-modification and future gameplay systems remain
+outside this initial bounded queue.
+
+---
