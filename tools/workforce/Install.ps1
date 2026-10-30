@@ -20,7 +20,8 @@ function Install-Missing([string]$Id) {
     & $winget.Source install --id $Id --exact --source winget --accept-source-agreements --accept-package-agreements --silent
     if ($LASTEXITCODE -ne 0) { throw "Install failed for $Id. Install it normally and run setup again." }
 }
-function Git([string[]]$GitArgs) {
+function Git {
+    param([Parameter(ValueFromRemainingArguments=$true)][string[]]$GitArgs)
     & $script:GitExe -C $Project @GitArgs
     if ($LASTEXITCODE -ne 0) { throw ('Git failed: ' + ($GitArgs -join ' ')) }
 }

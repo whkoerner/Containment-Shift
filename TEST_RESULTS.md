@@ -4,7 +4,7 @@ Inspected project baseline: `9946a89a9d7d03172d7ddc6ed3595bd83ad6cb08`.
 
 Cloud command: `python -m unittest discover -s tools/workforce -p test_agent.py -v`
 
-- **19 passed; 4 skipped** in this managed Linux environment.
+- **20 passed; 4 skipped** in this managed Linux environment.
 - Checks cover project completeness and origin, protected old-workspace rejection,
   patch preconditions and path restrictions, rollback, interrupted recovery,
   completed-commit preservation, external-edit preservation, dirty checkout

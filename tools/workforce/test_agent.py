@@ -153,6 +153,18 @@ class Fixture(unittest.TestCase):
         self.app.ingest_feedback()
         self.assertEqual(self.app.state["tasks"]["foundation-input"]["status"], "human_verified")
 
+    def test_negative_feedback_reopens_repair_and_blocks_dependencies(self):
+        inbox = self.root / ".workforce/feedback-inbox"
+        inbox.mkdir()
+        self.app.state["tasks"]["foundation-input"] = {"status": "human_verified", "code_commit": "abc"}
+        agent.atomic(inbox / "failure.json", {"comments": "Escape does not work", "human_confirmed": False, "tested_commit": "abc"})
+        self.app.ingest_feedback()
+        task = self.app.state["tasks"]["foundation-input"]
+        self.assertEqual(task["status"], "pending")
+        self.assertEqual(task["attempts"], 1)
+        self.assertIn("Escape does not work", task["error"])
+        self.assertEqual(self.app.choose()["id"], "foundation-input")
+
     def test_unrelated_staged_files_never_committed(self):
         (self.root / "user.txt").write_text("private user work")
         (self.root / "report.md").write_text("agent report")

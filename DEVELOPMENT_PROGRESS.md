@@ -17,7 +17,7 @@ research, reviewed bounded patches, Unity verification entry points, Windows
 installer and six shortcut actions, dashboard, feedback and Git reports. Fixed
 the imported input backend setting to Both. Existing scene/prefab GUIDs retained.
 
-**TESTED:** Cloud runtime suite: 19 passed, 4 skipped for process-inventory
+**TESTED:** Cloud runtime suite: 20 passed, 4 skipped for process-inventory
 namespace mismatch. See `TEST_RESULTS.md` for the explicit substitutes and limits.
 
 **NOT VERIFIED:** Windows operation, actual model inference, Unity compilation,

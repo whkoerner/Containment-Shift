@@ -609,6 +609,9 @@ class Workforce:
             # Only structured human input can change acceptance; model text is never consulted.
             if structured.get("human_confirmed") is True and structured.get("tested_commit") == task_state.get("code_commit") and task_state.get("status") == "awaiting_human":
                 task_state.update(status="human_verified", human_feedback=feedback_id)
+            elif structured.get("human_confirmed") is not True and text.strip() and task_state.get("status") in {"awaiting_human", "human_verified", "blocked"}:
+                task_state.update(status="pending", attempts=1, manual_required=True,
+                                  error="Human playtest feedback requires investigation; preserve original observations:\n" + text[:7000])
             record = {"id": feedback_id, "recorded": now(), "tested_commit": structured.get("tested_commit", "UNKNOWN"),
                       "unity": self.version(), "scene": self.config["scene"], "human_confirmed": structured.get("human_confirmed", False),
                       "original_comments": text, "media": copied_media, "bug_id": "BUG-" + fingerprint[:12],
