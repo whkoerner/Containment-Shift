@@ -1,5 +1,12 @@
 # Agent handoff
 
+Latest installer fix: `git-detection-fix-2`. The installed Git executable was
+hidden by the setup's own `Git` function because dependency lookup accepted all
+command types. Only Application commands are now accepted; WinGet's known
+already-installed/current results are followed by executable rechecks, while
+real installer failures still stop. Re-run the updated SETUP.cmd after the user
+reported missing runtime files. FIX_SHORTCUTS.cmd does not install a runtime.
+
 Project base: `9946a89a9d7d03172d7ddc6ed3595bd83ad6cb08`.
 Implementation branch: `feat/local-workforce-20261030`.
 

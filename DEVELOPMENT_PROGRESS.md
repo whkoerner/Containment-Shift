@@ -10,6 +10,13 @@
 - Next: open this checkout through Unity Hub, compile and test movement.
 # Workforce implementation — October 30, 2026
 
+Installer repair: user-reported `Git.Git` already-installed/no-upgrade failure
+prevented runtime installation and shortcuts. Fixed PowerShell function/application
+name collision in Git detection, added explicit application lookups, recognized
+known WinGet already-installed/current results, and refreshed PATH before rechecking
+dependencies. Native Windows regression checks cover the actual collision and
+simulated WinGet exit responses; no local laptop success is assumed.
+
 Base inspected: `9946a89a9d7d03172d7ddc6ed3595bd83ad6cb08`.
 
 **CHANGED:** Added local Ollama controller, persistent tasks/recovery, license

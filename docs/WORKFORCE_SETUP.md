@@ -171,6 +171,19 @@ install does not hide the status controls. Success means each saved shortcut's
 target, action arguments and working directory have been read back and checked;
 it does not establish that the agent or game ran successfully.
 
+### Git already installed / no upgrade available
+
+Setup version `git-detection-fix-2` fixes a dependency lookup error where the
+installer's own `Git` PowerShell helper hid the installed Git application. Program
+detection now explicitly selects applications and skips Windows Store Python
+aliases. Known WinGet responses for an already-installed/current package continue
+to a fresh executable lookup after reloading Windows PATH entries. Other install
+errors still stop setup and retain the package manager's exit code in the log.
+
+If you received this older error, download the updated ZIP, extract it, and run
+**SETUP.cmd** again. The shortcut repair alone cannot install the missing runtime.
+The setup version prints near the beginning so you can identify an old download.
+
 ## Explicit limits of this first implementation
 
 The runtime suite passed Windows and Ubuntu CI (24 tests); Windows also passed

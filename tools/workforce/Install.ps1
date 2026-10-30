@@ -12,18 +12,30 @@ Start-Transcript -Path $setupLog -Append -Force | Out-Null
 try {
 
 function Find-Program([string]$Name, [string[]]$Candidates) {
-    $found = Get-Command $Name -ErrorAction SilentlyContinue
-    if ($found -and $found.Source -notmatch 'WindowsApps') { return $found.Source }
+    # A function named Git exists in this script. Never mistake it for git.exe.
+    $found = Get-Command $Name -CommandType Application -All -ErrorAction SilentlyContinue |
+        Where-Object { $_.Source -and $_.Source -notmatch 'WindowsApps' } | Select-Object -First 1
+    if ($found) { return $found.Source }
     foreach ($candidate in $Candidates) {
         if (Test-Path -LiteralPath $candidate -PathType Leaf) { return $candidate }
     }
     return $null
 }
 function Install-Missing([string]$Id) {
-    $winget = Get-Command winget -ErrorAction SilentlyContinue
+    $winget = Get-Command winget -CommandType Application -ErrorAction SilentlyContinue
     if (-not $winget) { throw 'Open Microsoft Store, install App Installer, then run setup again.' }
     & $winget.Source install --id $Id --exact --source winget --accept-source-agreements --accept-package-agreements --silent
-    if ($LASTEXITCODE -ne 0) { throw "Install failed for $Id. Install it normally and run setup again." }
+    $resultCode = [long]$LASTEXITCODE -band 4294967295
+    $resultHex = $resultCode.ToString('X8')
+    # Official WinGet HRESULTs: update not applicable, package already installed,
+    # and installer reports already installed. A caller must still find the tool.
+    if ($resultCode -ne 0 -and $resultHex -notin @('8A15002B', '8A150061', '8A15010D')) {
+        throw "Install failed for $Id (WinGet 0x$resultHex). See the setup log for the actual package-manager error."
+    }
+    if ($resultCode -ne 0) { Write-Host "$Id is already installed/current; checking the executable again." }
+    $machinePath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
+    $userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+    $env:PATH = (@($env:PATH, $machinePath, $userPath) | Where-Object { $_ }) -join ';'
 }
 function Git {
     param([Parameter(ValueFromRemainingArguments=$true)][string[]]$GitArgs)
@@ -32,6 +44,7 @@ function Git {
 }
 
 Write-Host 'Containment Shift workforce setup. Your old AI workspace will remain read-only.'
+Write-Host 'Setup version: git-detection-fix-2'
 $GitExe = Find-Program 'git' @("$env:ProgramFiles\Git\cmd\git.exe", "$env:LOCALAPPDATA\Programs\Git\cmd\git.exe")
 if (-not $GitExe) {
     Install-Missing 'Git.Git'
