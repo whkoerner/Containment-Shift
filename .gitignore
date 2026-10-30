@@ -16,6 +16,21 @@
 *.sln
 *.slnx
 *.user
+*.pidb
+*.booproj
+*.unityproj
+*.suo
+*.tmp
+*.bak
+*.opendb
+*.VC.db
+*.pdb
+*.mdb
+*.log
+.DS_Store
+Thumbs.db
+# Keep all Unity .meta files and authored Assets, Packages and ProjectSettings tracked.
+
 *.userprefs
 *.pidb
 *.pdb
