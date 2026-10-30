@@ -1,5 +1,22 @@
 # Test results — local workforce implementation
 
+## Installer regression repair
+
+User-reported Git.Git already-installed/no-upgrade failure reproduced in the
+dependency lookup: a PowerShell `Git` helper hid the native Git executable.
+Setup now selects Application commands, handles known installed/current WinGet
+results before rechecking, and uses explicit named Git argument arrays compatible
+with built-in Windows PowerShell 5.1. Native HRESULT handling is explicit.
+
+At `ffcd889ac9b239886f70bc1009adc5e12b91282b`, Windows CI passed the runtime
+suite, installer argument/detection checks under PowerShell 7 and PowerShell 5.1,
+and real shortcut creation checks. WinGet package responses are simulated via a
+native command fixture; no package installation on the user's PC is implied.
+[Observed run](https://github.com/whkoerner/Containment-Shift/actions/runs/41143692929).
+
+Packaged setup prints `Setup version: git-detection-fix-2`. Local installation
+and actual Unity/Ollama operation remain unverified until the user runs it.
+
 Inspected project baseline: `9946a89a9d7d03172d7ddc6ed3595bd83ad6cb08`.
 
 Cloud command: `python -m unittest discover -s tools/workforce -p test_agent.py -v`
