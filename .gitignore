@@ -1,5 +1,4 @@
-# Containment Shift: Unity source and .meta files are tracked.
-# Do NOT ignore *.meta; those GUIDs link scenes, prefabs and scripts.
+# Unity: keep project source/serialized assets, omit generated local state.
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -7,15 +6,20 @@
 [Bb]uilds/
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
-[Mm]emory[Cc]aptures/
+[Mm]emoryCaptures/
 [Rr]ecordings/
+[Aa]rtifacts/
 .vs/
-.vscode/
 .idea/
+.vscode/
+.gradle/
 *.csproj
 *.sln
 *.slnx
+*.suo
 *.user
+*.tmp
+*.bak
 *.pidb
 *.booproj
 *.unityproj
@@ -37,14 +41,19 @@ Thumbs.db
 *.mdb
 *.opendb
 *.VC.db
+*.pidb
+*.booproj
 *.unitypackage
+*.zip
+*.7z
+*.rar
+*.exe
+*.dll
+*.pfx
+*.pem
+*.key
+.env
+.env.*
 .DS_Store
 Thumbs.db
-# Local tool/agent files must never enter the public source repository.
-*.env
-*.env.*
-*.pfx
-*.p12
-*.pem
-id_rsa
-id_ed25519
+# Never ignore .meta files: they preserve Unity asset GUID references.
