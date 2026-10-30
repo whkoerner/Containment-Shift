@@ -39,7 +39,10 @@ $pythonDefinition = $ast.Find({ param($node)
 }, $true)
 if (-not $pythonDefinition) { throw 'Supported Python selector was not found.' }
 Invoke-Expression $pythonDefinition.Extent.Text
-$realPython = (Get-Command python -CommandType Application -ErrorAction Stop).Source
+# Application lookup can return both real Python and a Windows Store alias.
+# Pass one real executable to the fixture, never stringify an array of paths.
+$realPython = (Get-Command python -CommandType Application -All -ErrorAction Stop |
+    Where-Object { $_.Source -notmatch 'WindowsApps' } | Select-Object -First 1).Source
 $unsupported = Join-Path ([IO.Path]::GetTempPath()) ('CS-Unsupported-Python-' + [guid]::NewGuid().ToString('N') + '.cmd')
 Set-Content -LiteralPath $unsupported -Value "@echo off`r`nexit /b 1" -Encoding ASCII
 try {

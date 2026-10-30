@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $false
 . (Join-Path $PSScriptRoot 'Setup-Checkout.ps1')
-$GitExe = (Get-Command git -CommandType Application -ErrorAction Stop).Source
+$GitExe = (Get-Command git -CommandType Application -All -ErrorAction Stop | Select-Object -First 1).Source
 $fixture = Join-Path ([IO.Path]::GetTempPath()) ('CS-Checkout-Test-' + [guid]::NewGuid().ToString('N'))
 $source = Join-Path $fixture 'Original Project'
 $remote = Join-Path $fixture 'remote.git'

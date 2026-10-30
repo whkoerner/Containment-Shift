@@ -49,6 +49,7 @@ function Initialize-WorkforceCheckout {
     } else {
         Assert-SetupRepository -Location $source
         if (Test-Path -LiteralPath (Join-Path $source 'Temp\UnityLockfile')) { throw 'Close Unity before running setup.' }
+        if (Test-Path -LiteralPath (Join-Path $source '.workforce\owner.json')) { throw 'Stop the existing workforce before running setup.' }
         $sourceHead = Invoke-SetupGit -Location $source -Arguments @('rev-parse', 'HEAD')
         $sourceStatus = Invoke-SetupGit -Location $source -Arguments @('status', '--porcelain')
         # Fetch only changes Git refs/objects; it does not stash, stage or alter source files.
