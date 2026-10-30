@@ -1,5 +1,20 @@
 # Test results — local workforce implementation
 
+## Preserve-edits setup repair 3
+
+At `bc91199fea395d76b11d7bd55cb2e11ea9af8f29`, Windows CI passed quiet Python
+selection checks under PowerShell 7 and built-in PowerShell 5.1, plus the real Git
+checkout integration test. That test hashes original staged/unstaged/untracked
+files, compares the staged diff/HEAD/branch/status before and after, verifies
+committed source work is retained, checks a single worktree is reused, rejects
+an already-dirty agent worktree, and exercises fresh clone setup. The 24 runtime
+tests and shortcut checks also passed. [Observed run](https://github.com/whkoerner/Containment-Shift/actions/runs/41145788837).
+
+Package banner: `preserve-edits-fix-3`. A dirty original checkout is preserved
+without automatically copying or publishing its uncommitted edits; the desktop
+controls target the separate agent checkout. Actual laptop installation and Unity
+gameplay still require local execution.
+
 ## Installer regression repair
 
 User-reported Git.Git already-installed/no-upgrade failure reproduced in the
