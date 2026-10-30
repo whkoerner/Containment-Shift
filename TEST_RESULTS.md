@@ -16,8 +16,12 @@ Cloud command: `python -m unittest discover -s tools/workforce -p test_agent.py 
 - The cloud's PID namespace differs from its mounted `/proc`. Non-process tests
   use a standard-subprocess adapter for Git/protocol commands. Four ownership,
   emergency-stop and cancellation checks are skipped here, **not passed**.
-- Windows/Ubuntu CI is configured to run the unadapted suite when their native
-  process inventory is consistent. No CI success is claimed before observing it.
+- **Windows and Ubuntu CI passed** the 24-test runtime suite at runtime commit
+  `1294f829a1904bb7656c9a3772b621cc86968a55`. The Windows job additionally passed
+  PowerShell parsing and the isolated installer Git-argument integration check.
+  [Observed successful run](https://github.com/whkoerner/Containment-Shift/actions/runs/41139472507).
+  These checks exercise runtime infrastructure, not Unity gameplay or installation
+  on the user's own computer.
 - Windows setup runs the full suite locally and refuses shortcuts if tests fail.
 - Python source compiles with `py_compile`; Git whitespace checks run before commit.
 

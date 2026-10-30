@@ -18,9 +18,12 @@ installer and six shortcut actions, dashboard, feedback and Git reports. Fixed
 the imported input backend setting to Both. Existing scene/prefab GUIDs retained.
 
 **TESTED:** Cloud runtime suite: 20 passed, 4 skipped for process-inventory
-namespace mismatch. See `TEST_RESULTS.md` for the explicit substitutes and limits.
+namespace mismatch. The full 24-test runtime suite subsequently passed Windows
+and Ubuntu CI at `1294f829a1904bb7656c9a3772b621cc86968a55`; Windows also passed
+PowerShell parsing and installer Git-argument integration. See `TEST_RESULTS.md`
+for the explicit substitutes and limits.
 
-**NOT VERIFIED:** Windows operation, actual model inference, Unity compilation,
+**NOT VERIFIED:** Installation on the user's Windows laptop, actual model inference, Unity compilation,
 synthetic movement, standalone build, physical controls and multiplayer.
 
 **NEXT:** Run Windows setup, then foundation verification and a human playtest.

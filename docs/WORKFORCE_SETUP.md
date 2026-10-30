@@ -152,7 +152,9 @@ history, original assets, test evidence or recovery checkpoints.
 
 ## Explicit limits of this first implementation
 
-No Windows/Unity/Ollama inference was executed in the author's cloud session.
+The runtime suite passed Windows and Ubuntu CI (24 tests); Windows also passed
+setup-script parsing and isolated Git-argument integration. The installer itself,
+Unity and real Ollama inference have not run on the user's laptop.
 The installer runs runtime tests locally before enabling shortcuts. Unity smoke
 and build entry points still require the actual licensed Editor and project
 import. The existing input settings repair requires a fresh local gameplay test.

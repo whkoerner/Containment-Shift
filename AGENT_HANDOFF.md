@@ -14,6 +14,11 @@ Runtime: `tools/workforce/agent.py`. Windows install: `INSTALL_WORKFORCE.cmd`.
 Detailed operation and remaining capabilities: `docs/WORKFORCE_SETUP.md`.
 Regression evidence: `TEST_RESULTS.md`. Initial tasks: `tools/workforce/tasks.json`.
 
+Full runtime suite: Windows and Ubuntu CI passed 24 tests for
+`1294f829a1904bb7656c9a3772b621cc86968a55`, including the real process tests.
+Windows additionally passed PowerShell parsing and installer argument forwarding.
+This does not establish local Unity or model functionality.
+
 Next action: user extracts setup ZIP and double-clicks SETUP.cmd. Windows runtime
 tests must pass before installer creates controls. Start then checks the actual
 machine, installed model, exact Editor, source/locks and clean Git state. It first
