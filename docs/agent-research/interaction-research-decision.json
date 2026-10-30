@@ -1,0 +1,12 @@
+{
+  "recommendation": "None",
+  "compatibility_gaps": [
+    "Both repositories have a license status of NOASSERTION, which means the license compatibility cannot be determined without further review.",
+    "Both repositories require review against the actual Editor version (6000.6.7f1) and the package lock to ensure compatibility."
+  ],
+  "dependency_review_needed": [
+    "Unity-Technologies/com.unity.multiplayer.samples.coop",
+    "Unity-Technologies/com.unity.multiplayer.samples.bitesize"
+  ],
+  "imported": false
+}
