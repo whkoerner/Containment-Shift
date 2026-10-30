@@ -40,3 +40,6 @@
 .DS_Store
 Thumbs.db
 # Never ignore .meta files: they preserve Unity asset GUID references.
+.workforce/
+__pycache__/
+*.pyc
