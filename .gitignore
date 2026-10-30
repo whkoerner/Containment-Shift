@@ -1,0 +1,35 @@
+# Containment Shift: Unity source and .meta files are tracked.
+# Do NOT ignore *.meta; those GUIDs link scenes, prefabs and scripts.
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emory[Cc]aptures/
+[Rr]ecordings/
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.slnx
+*.user
+*.userprefs
+*.pidb
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.unitypackage
+.DS_Store
+Thumbs.db
+# Local tool/agent files must never enter the public source repository.
+*.env
+*.env.*
+*.pfx
+*.p12
+*.pem
+id_rsa
+id_ed25519
