@@ -1,13 +1,13 @@
 {
-  "updated": "2026-10-30T23:57:00Z",
+  "updated": "2026-10-30T23:57:09Z",
   "branch": "agent/workforce-20261030-165348-6e64ce",
-  "code_commit": "060a6112db7868757619f22def745bae3feb8162",
+  "code_commit": "1e53551308b6bc6df67eb5fb7f23aed10bc03abe",
   "status": "Running",
   "tasks": {
     "foundation-input": {
-      "attempts": 2,
+      "attempts": 3,
       "error": "Review rejected proposed change: The scene contains multiple AudioListeners, which is not allowed in Unity. The error message indicates that there should be exactly one AudioListener in the scene.",
-      "status": "pending"
+      "status": "blocked"
     }
   },
   "blocker": "Review rejected proposed change: The scene contains multiple AudioListeners, which is not allowed in Unity. The error message indicates that there should be exactly one AudioListener in the scene.",
@@ -15,7 +15,7 @@
   "scorecard": {
     "human_confirmed_tasks": 0,
     "awaiting_human_tasks": 0,
-    "failed_attempts": 2,
+    "failed_attempts": 3,
     "automated_evidence_records": 0,
     "meaning": "Evidence counts, not an arbitrary model reward. Human gates alone unlock dependent gameplay work."
   }
