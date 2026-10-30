@@ -5,6 +5,11 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $Remote = 'https://github.com/whkoerner/Containment-Shift.git'
+$logDirectory = Join-Path $env:LOCALAPPDATA 'ContainmentShiftWorkforce'
+New-Item -ItemType Directory -Force -Path $logDirectory | Out-Null
+$setupLog = Join-Path $logDirectory 'setup.log'
+Start-Transcript -Path $setupLog -Append -Force | Out-Null
+try {
 
 function Find-Program([string]$Name, [string[]]$Candidates) {
     $found = Get-Command $Name -ErrorAction SilentlyContinue
@@ -106,30 +111,21 @@ if (-not $identity) {
     Git @('config', 'user.email', '267839055+whkoerner@users.noreply.github.com')
 }
 
+. (Join-Path $Runtime 'Create-Shortcuts.ps1')
+$shortcuts = New-WorkforceShortcuts -Project $Project -OpenControls
+Write-Host 'Verified all six desktop shortcuts. The controls folder is now open.' -ForegroundColor Green
+Write-Host ('Desktop: ' + $shortcuts.DesktopDirectory)
+Write-Host ('Controls folder: ' + $shortcuts.ControlsDirectory)
+
 $ollamaExe = Find-Program 'ollama' @("$env:LOCALAPPDATA\Programs\Ollama\ollama.exe")
 if (-not $ollamaExe) {
-    Install-Missing 'Ollama.Ollama'
+    try { Install-Missing 'Ollama.Ollama' }
+    catch { Write-Host ('Your shortcuts are ready; Ollama still needs installation: ' + $_.Exception.Message) -ForegroundColor Yellow }
     $ollamaExe = Find-Program 'ollama' @("$env:LOCALAPPDATA\Programs\Ollama\ollama.exe")
 }
 try { $null = Invoke-RestMethod 'http://127.0.0.1:11434/api/tags' -TimeoutSec 5 }
 catch { Write-Host 'Open Ollama from your Start menu before clicking Start. Setup will still create your controls.' }
 
-$desktop = [Environment]::GetFolderPath('Desktop')
-$shell = New-Object -ComObject WScript.Shell
-$actions = [ordered]@{
-    'START CONTAINMENT SHIFT AGENT'='start'; 'STOP AND SAVE AGENT'='stop';
-    'EMERGENCY STOP AGENT'='emergency'; 'PLAY CONTAINMENT SHIFT'='play';
-    'SUBMIT PLAYTEST FEEDBACK'='feedback'; 'VIEW AGENT STATUS'='status'
-}
-foreach ($entry in $actions.GetEnumerator()) {
-    $link = $shell.CreateShortcut((Join-Path $desktop ($entry.Key + '.lnk')))
-    $link.TargetPath = 'powershell.exe'
-    $launcher = Join-Path $Runtime 'Launch.ps1'
-    $link.Arguments = '-NoProfile -ExecutionPolicy Bypass -File "' + $launcher + '" -Action ' + $entry.Value + ' -Project "' + $Project + '"'
-    $link.WorkingDirectory = $Project
-    $link.Description = 'Containment Shift local Ollama workforce'
-    $link.Save()
-}
 Write-Host ''
 Write-Host 'Setup finished. Six desktop shortcuts are ready.' -ForegroundColor Green
 Write-Host 'Click START CONTAINMENT SHIFT AGENT. The dashboard will report any missing Unity Editor or local coding model.'
@@ -137,3 +133,11 @@ Write-Host "Project: $Project"
 Write-Host "Settings: $configPath"
 & $Python (Join-Path $Runtime 'agent.py') doctor --config $configPath
 if ($LASTEXITCODE -ne 0) { Write-Host 'The diagnostic above names the remaining local setup step. The agent has not claimed gameplay is verified.' }
+} catch {
+    Write-Host ('Setup stopped: ' + $_.Exception.Message) -ForegroundColor Red
+    Write-Host ("Setup log: $setupLog")
+    Write-Host 'If shortcuts are absent, setup did not finish. Copy the error above so it can be repaired.'
+    exit 1
+} finally {
+    Stop-Transcript | Out-Null
+}

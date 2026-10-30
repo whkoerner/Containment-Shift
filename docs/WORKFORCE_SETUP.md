@@ -150,6 +150,27 @@ The dashboard's cleanup button removes only week-old regenerable model/command
 scratch in `.workforce`. It never deletes Unity caches, feedback, builds, Git
 history, original assets, test evidence or recovery checkpoints.
 
+## Missing desktop controls
+
+Shortcuts are created by Windows setup on your computer; downloading the ZIP or
+publishing the GitHub branch does not install them. Extract the setup ZIP before
+running **SETUP.cmd**. If setup stops earlier, no shortcuts have been installed.
+The setup transcript is `%LOCALAPPDATA%/ContainmentShiftWorkforce/setup.log`.
+
+If you already installed the workforce, double-click **FIX_SHORTCUTS.cmd** in the
+updated extracted setup folder. It checks required installation files, recreates
+and reads back all six shortcuts in Windows' physical Desktop directory, and
+opens a fallback controls folder at `.workforce/controls`. Double-click **VIEW
+AGENT STATUS** in that folder. This repair does not start workers, change Git
+branches, reinstall dependencies, or change the Unity project source. If setup is
+incomplete, it names missing files and leaves the error visible.
+
+Setup prints both the resolved Desktop and controls-folder paths. It now creates
+controls before attempting an optional Ollama installation, so a failed Ollama
+install does not hide the status controls. Success means each saved shortcut's
+target, action arguments and working directory have been read back and checked;
+it does not establish that the agent or game ran successfully.
+
 ## Explicit limits of this first implementation
 
 The runtime suite passed Windows and Ubuntu CI (24 tests); Windows also passed

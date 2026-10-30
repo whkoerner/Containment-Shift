@@ -19,6 +19,12 @@ Full runtime suite: Windows and Ubuntu CI passed 24 tests for
 Windows additionally passed PowerShell parsing and installer argument forwarding.
 This does not establish local Unity or model functionality.
 
+Desktop-control repair: Windows setup now verifies the saved shortcuts and opens
+`.workforce/controls` as a fallback. `FIX_SHORTCUTS.cmd` in the updated setup ZIP
+recreates them for an existing installation or identifies missing setup files.
+Setup writes `%LOCALAPPDATA%/ContainmentShiftWorkforce/setup.log`. Do not assume
+the user's setup completed merely because the code/ZIP was delivered.
+
 Next action: user extracts setup ZIP and double-clicks SETUP.cmd. Windows runtime
 tests must pass before installer creates controls. Start then checks the actual
 machine, installed model, exact Editor, source/locks and clean Git state. It first

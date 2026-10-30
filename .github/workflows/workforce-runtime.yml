@@ -33,3 +33,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: ./tools/workforce/Test-Setup.ps1
+      - name: Test Windows shortcuts and repair
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: ./tools/workforce/Test-Shortcuts.ps1
