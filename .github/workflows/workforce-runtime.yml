@@ -32,11 +32,15 @@ jobs:
       - name: Test installer Git argument forwarding
         if: runner.os == 'Windows'
         shell: pwsh
-        run: ./tools/workforce/Test-Setup.ps1
+        run: |
+          try { ./tools/workforce/Test-Setup.ps1 }
+          catch { Write-Output ("::error::" + $_.Exception.Message); throw }
       - name: Test dependency detection in Windows PowerShell 5.1
         if: runner.os == 'Windows'
         shell: powershell
-        run: ./tools/workforce/Test-Setup.ps1
+        run: |
+          try { ./tools/workforce/Test-Setup.ps1 }
+          catch { Write-Output ("::error::" + $_.Exception.Message); throw }
       - name: Test Windows shortcuts and repair
         if: runner.os == 'Windows'
         shell: powershell

@@ -64,4 +64,7 @@ try {
     Remove-Item Function:\Get-Command
     Remove-Item Env:\CS_WORKFORCE_WINGET_CODE
     $env:PATH = $pathBefore
+    # The fixture deliberately invokes a failing native command and verifies its
+    # exception. Do not let a CI shell mistake that expected last HRESULT for a test failure.
+    $global:LASTEXITCODE = 0
 }

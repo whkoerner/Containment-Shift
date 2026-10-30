@@ -24,6 +24,8 @@ function Find-Program([string]$Name, [string[]]$Candidates) {
 function Install-Missing([string]$Id) {
     $winget = Get-Command winget -CommandType Application -ErrorAction SilentlyContinue
     if (-not $winget) { throw 'Open Microsoft Store, install App Installer, then run setup again.' }
+    # Inspect native HRESULTs ourselves even when PowerShell 7 native-error handling is enabled.
+    $PSNativeCommandUseErrorActionPreference = $false
     & $winget.Source install --id $Id --exact --source winget --accept-source-agreements --accept-package-agreements --silent
     $resultCode = [long]$LASTEXITCODE -band 4294967295
     $resultHex = $resultCode.ToString('X8')
