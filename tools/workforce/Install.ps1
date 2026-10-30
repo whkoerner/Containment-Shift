@@ -40,7 +40,7 @@ function Install-Missing([string]$Id) {
     $env:PATH = (@($env:PATH, $machinePath, $userPath) | Where-Object { $_ }) -join ';'
 }
 function Git {
-    param([Parameter(ValueFromRemainingArguments=$true)][string[]]$GitArgs)
+    param([Parameter(Mandatory=$true)][string[]]$GitArgs)
     & $script:GitExe -C $Project @GitArgs
     if ($LASTEXITCODE -ne 0) { throw ('Git failed: ' + ($GitArgs -join ' ')) }
 }
@@ -88,9 +88,9 @@ if (-not (Test-Path -LiteralPath $Project)) {
     if ($origin -notin @($Remote, $Remote.Replace('.git', ''), 'git@github.com:whkoerner/Containment-Shift.git')) { throw "Wrong origin: $origin" }
     $dirty = (& $GitExe -C $Project status --porcelain | Out-String).Trim()
     if ($dirty) { throw "Your checkout has uncommitted changes. Everything is preserved. Commit your changes in GitHub Desktop, then run setup again. Folder: $Project" }
-    Git @('fetch', 'origin', ($Branch + ':refs/remotes/origin/' + $Branch))
+    Git -GitArgs @('fetch', 'origin', ($Branch + ':refs/remotes/origin/' + $Branch))
     $setupBranch = 'agent/setup-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + ([guid]::NewGuid().ToString('N').Substring(0,6))
-    Git @('switch', '-c', $setupBranch)
+    Git -GitArgs @('switch', '-c', $setupBranch)
     & $GitExe -C $Project merge --no-edit ('origin/' + $Branch)
     if ($LASTEXITCODE -ne 0) {
         & $GitExe -C $Project merge --abort
@@ -122,8 +122,8 @@ if (-not (Test-Path -LiteralPath $configPath)) {
 $identity = (& $GitExe -C $Project config user.email | Out-String).Trim()
 if (-not $identity) {
     # Use the repository owner's public GitHub noreply identity only for this checkout.
-    Git @('config', 'user.name', 'Wyatt Koerner')
-    Git @('config', 'user.email', '267839055+whkoerner@users.noreply.github.com')
+    Git -GitArgs @('config', 'user.name', 'Wyatt Koerner')
+    Git -GitArgs @('config', 'user.email', '267839055+whkoerner@users.noreply.github.com')
 }
 
 . (Join-Path $Runtime 'Create-Shortcuts.ps1')

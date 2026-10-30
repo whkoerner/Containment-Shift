@@ -24,8 +24,8 @@ if ($LASTEXITCODE -ne 0) { throw 'Detected Git is not executable.' }
 Write-Host 'PASS: installed Git is detected even while a Git helper function exists.'
 New-Item -ItemType Directory -Path $Project | Out-Null
 try {
-    Git @('init', '--quiet')
-    Git @('config', 'user.name', 'Containment Shift Setup Fixture')
+    Git -GitArgs @('init', '--quiet')
+    Git -GitArgs @('config', 'user.name', 'Containment Shift Setup Fixture')
     $value = (& $script:GitExe -C $Project config user.name | Out-String).Trim()
     if ($value -ne 'Containment Shift Setup Fixture') { throw 'Installer lost Git arguments or quoting.' }
     Write-Host 'PASS: installer forwards every Git argument, including values containing spaces.'
