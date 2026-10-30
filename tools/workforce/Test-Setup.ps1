@@ -44,7 +44,7 @@ $unsupported = Join-Path ([IO.Path]::GetTempPath()) ('CS-Unsupported-Python-' + 
 Set-Content -LiteralPath $unsupported -Value "@echo off`r`nexit /b 1" -Encoding ASCII
 try {
     $selected = Find-SupportedPython -Candidates @($unsupported, $realPython)
-    if ($selected -ne $realPython) { throw 'Supported Python was not selected after rejecting an incompatible candidate.' }
+    if ($selected -ne $realPython) { throw "Supported Python was not selected after rejecting an incompatible candidate. Selected=[$selected] Expected=[$realPython]" }
     & $selected -c 'import sys; assert (3,10) <= sys.version_info[:2] < (3,14)'
     if ($LASTEXITCODE -ne 0) { throw 'Selected Python has an unsupported version.' }
     Write-Host 'PASS: an incompatible Python candidate is skipped quietly and a supported executable is selected.'

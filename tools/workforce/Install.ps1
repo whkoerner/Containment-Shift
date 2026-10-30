@@ -59,8 +59,12 @@ function Find-SupportedPython {
     foreach ($candidate in @($paths | Select-Object -Unique)) {
         if (-not $candidate -or -not (Test-Path -LiteralPath $candidate -PathType Leaf)) { continue }
         try {
-            & $candidate -c 'import sys; sys.exit(0 if (3,10) <= sys.version_info[:2] < (3,14) else 1)' *> $null
-            if ($LASTEXITCODE -eq 0) { return $candidate }
+            $probe = @(& $candidate -c 'import sys; print(sys.version_info.major * 100 + sys.version_info.minor)' 2>$null)
+            $code = $LASTEXITCODE
+            $version = 0
+            if ($code -eq 0 -and [int]::TryParse(($probe -join '').Trim(), [ref]$version) -and $version -ge 310 -and $version -lt 314) {
+                return $candidate
+            }
         } catch { continue }
     }
     return $null
