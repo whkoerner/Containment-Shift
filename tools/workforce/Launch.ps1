@@ -5,6 +5,10 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 try {
+    $installation = Join-Path $env:LOCALAPPDATA 'ContainmentShiftWorkforce\installation.json'
+    if (-not $PSBoundParameters.ContainsKey('Project') -and (Test-Path -LiteralPath $installation -PathType Leaf)) {
+        $Project = (Get-Content -LiteralPath $installation -Raw | ConvertFrom-Json).project
+    }
     $python = Join-Path $Project '.workforce\venv\Scripts\python.exe'
     $entry = Join-Path $Project 'tools\workforce\agent.py'
     $config = Join-Path $Project '.workforce\config.json'

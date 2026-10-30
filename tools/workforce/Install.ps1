@@ -39,6 +39,32 @@ function Install-Missing([string]$Id) {
     $userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
     $env:PATH = (@($env:PATH, $machinePath, $userPath) | Where-Object { $_ }) -join ';'
 }
+function Find-SupportedPython {
+    param([string[]]$Candidates = @("$env:LOCALAPPDATA\Programs\Python\Python312\python.exe", "$env:ProgramFiles\Python312\python.exe"))
+    $PSNativeCommandUseErrorActionPreference = $false
+    $paths = @($Candidates)
+    foreach ($registry in @('HKCU:\Software\Python\PythonCore\3.12\InstallPath',
+                            'HKLM:\Software\Python\PythonCore\3.12\InstallPath',
+                            'HKLM:\Software\WOW6432Node\Python\PythonCore\3.12\InstallPath')) {
+        if (Test-Path -LiteralPath $registry) {
+            $key = Get-Item -LiteralPath $registry
+            $executable = $key.GetValue('ExecutablePath')
+            $directory = $key.GetValue('')
+            if ($executable) { $paths += [string]$executable }
+            if ($directory) { $paths += Join-Path ([string]$directory) 'python.exe' }
+        }
+    }
+    $paths += @(Get-Command python -CommandType Application -All -ErrorAction SilentlyContinue |
+        Where-Object { $_.Source -and $_.Source -notmatch 'WindowsApps' } | ForEach-Object { $_.Source })
+    foreach ($candidate in @($paths | Select-Object -Unique)) {
+        if (-not $candidate -or -not (Test-Path -LiteralPath $candidate -PathType Leaf)) { continue }
+        try {
+            & $candidate -c 'import sys; sys.exit(0 if (3,10) <= sys.version_info[:2] < (3,14) else 1)' *> $null
+            if ($LASTEXITCODE -eq 0) { return $candidate }
+        } catch { continue }
+    }
+    return $null
+}
 function Git {
     param([Parameter(Mandatory=$true)][string[]]$GitArgs)
     & $script:GitExe -C $Project @GitArgs
@@ -46,7 +72,7 @@ function Git {
 }
 
 Write-Host 'Containment Shift workforce setup. Your old AI workspace will remain read-only.'
-Write-Host 'Setup version: git-detection-fix-2'
+Write-Host 'Setup version: preserve-edits-fix-3'
 $GitExe = Find-Program 'git' @("$env:ProgramFiles\Git\cmd\git.exe", "$env:LOCALAPPDATA\Programs\Git\cmd\git.exe")
 if (-not $GitExe) {
     Install-Missing 'Git.Git'
@@ -56,14 +82,10 @@ if (-not $GitExe) { throw 'Git was installed. Close this window and run setup ag
 $gitDirectory = Split-Path -Parent $GitExe
 $env:PATH = "$gitDirectory;$env:PATH"
 
-$Python = Find-Program 'python' @("$env:LOCALAPPDATA\Programs\Python\Python312\python.exe", "$env:ProgramFiles\Python312\python.exe")
-if ($Python) {
-    & $Python -c 'import sys; assert (3,10) <= sys.version_info < (3,14)'
-    if ($LASTEXITCODE -ne 0) { $Python = $null }
-}
+$Python = Find-SupportedPython
 if (-not $Python) {
     Install-Missing 'Python.Python.3.12'
-    $Python = Find-Program 'python' @("$env:LOCALAPPDATA\Programs\Python\Python312\python.exe", "$env:ProgramFiles\Python312\python.exe")
+    $Python = Find-SupportedPython
 }
 if (-not $Python) { throw 'Python was installed. Close this window and run setup again.' }
 
@@ -77,26 +99,9 @@ $unityProcess = Get-CimInstance Win32_Process -Filter "Name = 'Unity.exe'" | Whe
 if ($unityProcess -or (Test-Path -LiteralPath (Join-Path $Project 'Temp\UnityLockfile'))) {
     throw 'Close this Unity project, then run setup again. No processes were killed or locks deleted.'
 }
-if (-not (Test-Path -LiteralPath $Project)) {
-    $parent = Split-Path -Parent $Project
-    New-Item -ItemType Directory -Force -Path $parent | Out-Null
-    & $GitExe clone --branch $Branch --single-branch $Remote $Project
-    if ($LASTEXITCODE -ne 0) { throw 'Git clone failed. Check your internet connection.' }
-} else {
-    if (-not (Test-Path -LiteralPath (Join-Path $Project '.git'))) { throw "The folder already exists without Git. Preserved everything: $Project. Choose a separate checkout with -Project." }
-    $origin = (& $GitExe -C $Project remote get-url origin | Out-String).Trim()
-    if ($origin -notin @($Remote, $Remote.Replace('.git', ''), 'git@github.com:whkoerner/Containment-Shift.git')) { throw "Wrong origin: $origin" }
-    $dirty = (& $GitExe -C $Project status --porcelain | Out-String).Trim()
-    if ($dirty) { throw "Your checkout has uncommitted changes. Everything is preserved. Commit your changes in GitHub Desktop, then run setup again. Folder: $Project" }
-    Git -GitArgs @('fetch', 'origin', ($Branch + ':refs/remotes/origin/' + $Branch))
-    $setupBranch = 'agent/setup-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + ([guid]::NewGuid().ToString('N').Substring(0,6))
-    Git -GitArgs @('switch', '-c', $setupBranch)
-    & $GitExe -C $Project merge --no-edit ('origin/' + $Branch)
-    if ($LASTEXITCODE -ne 0) {
-        & $GitExe -C $Project merge --abort
-        throw 'Your branch differs from this setup. The merge was aborted and your existing files were preserved. Share this message for a targeted update.'
-    }
-}
+. (Join-Path $PSScriptRoot 'Setup-Checkout.ps1')
+$checkout = Initialize-WorkforceCheckout -GitExe $GitExe -Project $Project -Remote $Remote -Branch $Branch
+$Project = $checkout.Project
 
 $stateDirectory = Join-Path $Project '.workforce'
 New-Item -ItemType Directory -Force -Path $stateDirectory | Out-Null
@@ -127,6 +132,8 @@ if (-not $identity) {
 }
 
 . (Join-Path $Runtime 'Create-Shortcuts.ps1')
+@{project=$Project; source_project=$checkout.SourceProject; isolated=$checkout.Isolated} | ConvertTo-Json |
+    Set-Content -LiteralPath (Join-Path $logDirectory 'installation.json') -Encoding UTF8
 $shortcuts = New-WorkforceShortcuts -Project $Project -OpenControls
 Write-Host 'Verified all six desktop shortcuts. The controls folder is now open.' -ForegroundColor Green
 Write-Host ('Desktop: ' + $shortcuts.DesktopDirectory)

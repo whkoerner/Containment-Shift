@@ -10,6 +10,13 @@
 - Next: open this checkout through Unity Hub, compile and test movement.
 # Workforce implementation — October 30, 2026
 
+Next setup repair: select a supported Python candidate quietly and preserve the
+reported dirty original checkout by using one linked workforce checkout. No
+automatic commit/publication/import of unseen uncommitted user files is attempted.
+New Windows integration checks verify source bytes, staged diff, HEAD/branch,
+worktree reuse, preservation of committed work and rejection of dirty worktree
+updates. Local laptop installation remains unverified until setup runs there.
+
 Installer repair: user-reported `Git.Git` already-installed/no-upgrade failure
 prevented runtime installation and shortcuts. Fixed PowerShell function/application
 name collision in Git detection, added explicit application lookups, recognized

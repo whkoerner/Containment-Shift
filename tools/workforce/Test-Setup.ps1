@@ -34,6 +34,24 @@ try {
 }
 
 # WinGet responses are simulated; this test must not install/upgrade runner packages.
+$pythonDefinition = $ast.Find({ param($node)
+    $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Find-SupportedPython'
+}, $true)
+if (-not $pythonDefinition) { throw 'Supported Python selector was not found.' }
+Invoke-Expression $pythonDefinition.Extent.Text
+$realPython = (Get-Command python -CommandType Application -ErrorAction Stop).Source
+$unsupported = Join-Path ([IO.Path]::GetTempPath()) ('CS-Unsupported-Python-' + [guid]::NewGuid().ToString('N') + '.cmd')
+Set-Content -LiteralPath $unsupported -Value "@echo off`r`nexit /b 1" -Encoding ASCII
+try {
+    $selected = Find-SupportedPython -Candidates @($unsupported, $realPython)
+    if ($selected -ne $realPython) { throw 'Supported Python was not selected after rejecting an incompatible candidate.' }
+    & $selected -c 'import sys; assert (3,10) <= sys.version_info[:2] < (3,14)'
+    if ($LASTEXITCODE -ne 0) { throw 'Selected Python has an unsupported version.' }
+    Write-Host 'PASS: an incompatible Python candidate is skipped quietly and a supported executable is selected.'
+} finally {
+    Remove-Item -LiteralPath $unsupported -Force
+}
+
 $installer = $ast.Find({ param($node)
     $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Install-Missing'
 }, $true)

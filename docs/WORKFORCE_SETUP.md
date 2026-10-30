@@ -23,10 +23,13 @@ service is required. No model weights are downloaded automatically.
 
 The default project is Windows Documents/ContainmentShift-Unity, including a
 redirected Documents folder. An existing clean checkout is preserved on a new
-setup branch before merging this implementation. A dirty checkout is left
-untouched and setup stops with an explanation. Save your changes in GitHub
-Desktop, then repeat setup. Merge conflicts are aborted; no reset or force push
-is used. A non-Git folder is never replaced.
+setup branch before merging this implementation. If that checkout has uncommitted
+changes, setup leaves its working files, index and branch intact and uses one
+linked Git worktree at Documents/ContainmentShift-Workforce. Committed source work
+is integrated with the workforce branch there. Uncommitted edits stay in the
+original folder and are not automatically copied, committed or published. Setup
+reuses that one worktree on subsequent runs. Merge conflicts are aborted; no
+reset or force push is used. A non-Git folder is never replaced.
 
 Keep the original `%LOCALAPPDATA%/ContainmentShiftAgent` workspace as a backup.
 This workforce refuses to use it as its development checkout.
@@ -183,6 +186,20 @@ errors still stop setup and retain the package manager's exit code in the log.
 If you received this older error, download the updated ZIP, extract it, and run
 **SETUP.cmd** again. The shortcut repair alone cannot install the missing runtime.
 The setup version prints near the beginning so you can identify an old download.
+
+### Uncommitted checkout edits / incompatible default Python
+
+Setup `preserve-edits-fix-3` quietly probes Python candidates, preferring the
+installed Python 3.12 paths and registry entries before other PATH executables.
+It never selects an unsupported executable merely because it appears first in
+PATH. A rejected candidate no longer prints an AssertionError.
+
+An existing uncommitted project no longer requires a blanket commit to install
+the workforce. Setup uses a separate linked checkout and records its source in
+ignored `.workforce/setup-source.json`. The active project is recorded in
+`%LOCALAPPDATA%/ContainmentShiftWorkforce/installation.json`; desktop controls and
+the shortcut repair use that location. Review uncommitted original edits before
+deliberately integrating them later. Setup does not publish them as a checkpoint.
 
 ## Explicit limits of this first implementation
 

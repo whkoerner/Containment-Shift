@@ -1,5 +1,13 @@
 # Agent handoff
 
+Setup `preserve-edits-fix-3` handles the next reported blockers: quietly select
+supported Python (prefer 3.12) and leave a dirty original project intact while
+using one linked Documents/ContainmentShift-Workforce checkout. Source committed
+work is merged with the workforce branch there; original uncommitted/staged/
+untracked edits are not copied or published. The active path is recorded in
+LocalAppData/ContainmentShiftWorkforce/installation.json for controls/repair.
+If the agent checkout itself is dirty or occupied by an agent, setup still stops.
+
 Latest installer fix: `git-detection-fix-2`. The installed Git executable was
 hidden by the setup's own `Git` function because dependency lookup accepted all
 command types. Only Application commands are now accepted; WinGet's known

@@ -45,3 +45,9 @@ jobs:
         if: runner.os == 'Windows'
         shell: powershell
         run: ./tools/workforce/Test-Shortcuts.ps1
+      - name: Test checkout preservation in Windows PowerShell 5.1
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          try { ./tools/workforce/Test-Checkout.ps1 }
+          catch { Write-Output ("::error::" + $_.Exception.Message); throw }
