@@ -715,7 +715,6 @@ class Workforce:
         self.run_id = run_id
         with InstanceLock(self.state_dir / "instance.lock"):
             self.running = True
-            self.stop_path.unlink(missing_ok=True)
             self.write_owner()
             self.save(status="Running", error="", started=now())
             signal.signal(signal.SIGTERM, lambda *_: self.stop_path.touch())
