@@ -1,5 +1,16 @@
 # Agent handoff
 
+Current launcher uses `overseer.py` when installed. It starts/reuses Ollama,
+creates a dedicated context alias and verifies READY plus a real tool call before
+Unity work. A local overseer plans a persistent queue; actual OpenCode workers
+implement tasks with bounded retries, independent-task continuation, explicit
+failure reports, supervisor Unity checks and human acceptance gates. Controls
+own these workers and observed helpers; they do not control the separate older
+AI-Playable OpenCode session. Worker output and Unity logs are visible live.
+`Install-Overseer.ps1` is the stopped-only update path; the ZIP includes pinned
+32K runtime support. Native CI passed at 72ba0ee; laptop execution is unverified.
+See docs/WORKFORCE_SETUP.md and TEST_RESULTS.md for scope and exact evidence.
+
 Context update: current controller defaults to 32768 and supports per-config
 `num_ctx` overrides; explicit null uses the profile. Output/task budgets remain
 profile based. `Set-Context.ps1` plus its bundled pinned controller supports a

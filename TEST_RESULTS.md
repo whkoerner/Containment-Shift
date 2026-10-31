@@ -1,5 +1,27 @@
 # Test results — local workforce implementation
 
+## Ollama-first OpenCode overseer
+
+At `72ba0eea119d69870eb764ffa78b1cfe1a12f5f9`, Windows and Ubuntu CI passed
+the original 25 runtime tests and 9 overseer tests. Overseer coverage includes
+Ollama-before-project startup order, real-response/tool-call validation using
+explicit protocol substitutes, queue validation, task retry exhaustion followed
+by independent work, dependency blocking, interruption preserving partial edits,
+source deletion checkpoints, scope rejection, cancellation of an owned worker,
+and cleanup of an observed surviving helper after normal parent exit.
+Windows PowerShell 5.1 additionally passed the npm-style OpenCode .cmd launcher
+fixture (local model/config plus quotes and newlines preserved in prompt files)
+and updater integration (actual prior launcher replaced, reviewed payload
+installed, unrelated staged work preserved, repeat update idempotent, custom
+controller edits protected). Existing setup/shortcut/checkout/32K checks passed.
+[Observed run](https://github.com/whkoerner/Containment-Shift/actions/runs/41151980437).
+
+These are runtime and native launcher/update fixtures. They do not run an actual
+local OpenCode/Ollama/Unity/MCP combination or measure GPU context allocation on
+the user's laptop. The installed OpenCode must support the documented run flags
+and provider/config interface; real tool calls are checked at startup. The
+OpenCode permissions/instructions are development boundaries, not an OS sandbox.
+
 ## 32K context update
 
 At `09ec898408c9cbe5825b56d5b4be4d49e1334546`, Windows and Ubuntu CI passed
