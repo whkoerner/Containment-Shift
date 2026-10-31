@@ -196,11 +196,25 @@ class Overseer(agent.Workforce):
             'provider': {'ollama': {'npm': '@ai-sdk/openai-compatible', 'name': 'Local Ollama',
                 'options': {'baseURL': self.config['ollama']+'/v1'},
                 'models': {self.worker_model: {'name': self.worker_model, 'limit': {'context': self.config['num_ctx'], 'output': 4096}}}}},
-            'permission': {'*': 'allow', 'external_directory': 'deny',
-                'edit': {'*': 'allow', 'tools/workforce/*': 'deny', '.git/*': 'deny'}, 'task': 'deny'}}
+            'permission': {'*': 'allow', 'bash': 'deny', 'task': 'deny',
+                'mcp_*': 'deny', 'external_directory': 'deny',
+                'edit': {'*': 'deny',
+                    'Assets/*': 'allow', '*/Assets/*': 'allow',
+                    'Packages/*': 'allow', '*/Packages/*': 'allow',
+                    'ProjectSettings/*': 'allow', '*/ProjectSettings/*': 'allow',
+                    'docs/*': 'allow', '*/docs/*': 'allow',
+                    '.workforce/opencode-result.json': 'allow',
+                    '*/.workforce/opencode-result.json': 'allow',
+                    'tools/workforce/*': 'deny', '*/tools/workforce/*': 'deny',
+                    '.git/*': 'deny', '*/.git/*': 'deny'}},
+            'agent': {'build': {'permission': {'bash': 'deny', 'task': 'deny', 'mcp_*': 'deny'}}}}
         prompt = ('Execute this task in the CURRENT project using actual tools. Read AGENTS.md/AGENT_MISSION.md if present. '
             'Use existing GitHub/open-source solutions first; record exact source revision, license, dependencies and Unity compatibility before importing. '
             'You may create/repair Unity runtime and Editor scripts, project settings, scene/prefab assets, tests, package configuration and docs as needed. '
+            'The OpenCode bash tool and MCP tools are disabled for safety. Use read, glob, grep, edit, write and web tools only. '
+            'Never delete or modify Library, Temp, obj, Logs, UserSettings, generated caches, or files outside the allowed source folders. '
+            'Do not attempt shell commands or Unity CLI calls yourself. The supervisor owns independent Unity compile, movement-smoke and build checks. '
+            'Search Assets, Packages/manifest.json, ProjectSettings and docs instead of Library/PackageCache; no recursive project-root scans. '
             'Do not touch other project folders, tools/workforce, .git, supervisor/config/stop controls, or launch background/daemon processes. '
             'Do not commit, push, change branches, or claim human verification. The supervisor checkpoints your work. '
             'If using Unity MCP, confirm it targets this EXACT project; otherwise use the configured Editor in batch mode. Close any Unity instance you started before returning. '
