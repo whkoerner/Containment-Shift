@@ -1,0 +1,15 @@
+{
+  "id": "PT-5a2be761e23e",
+  "recorded": "2026-10-31T01:33:41Z",
+  "tested_commit": "UNKNOWN",
+  "unity": "6000.6.7f1",
+  "scene": "Assets/ContainmentShift/Scenes/Annex_Greybox.unity",
+  "human_confirmed": false,
+  "original_comments": "{\r\n  \"date\": \"2026-10-31T00:01:31Z\",\r\n  \"comments\": \"Everything worked well with the controlls, movement, and the hosting. Disconnecting and reconnecting did not work.\",\r\n  \"human_confirmed\": false,\r\n  \"task_id\": \"foundation-input\",\r\n  \"tested_commit\": \"UNKNOWN\",\r\n  \"scene\": \"Assets/ContainmentShift/Scenes/Annex_Greybox.unity\",\r\n  \"attachments\": [\r\n    \"C:/Users/whkoe/Pictures/Screenshots/Screenshot 2026-10-30 170038.png\"\r\n  ]\r\n}",
+  "media": [
+    "media-0.png"
+  ],
+  "bug_id": "BUG-5a2be761e23e",
+  "evidence_level": "HUMAN_REPORT",
+  "next_action": "Inspect reported failures before new features"
+}
