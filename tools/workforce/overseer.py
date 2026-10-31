@@ -149,11 +149,11 @@ class Overseer(agent.Workforce):
         alias = 'containment-workforce-'+agent.digest((base+str(self.config['num_ctx'])).encode())[:12]+':latest'
         self.save(phase='Loading local model at 32K', model_activity='Waiting for READY', requested_context=self.config['num_ctx'])
         self.native('/api/create', {'model': alias, 'from': base, 'parameters': {'num_ctx': self.config['num_ctx']}, 'stream': False})
-        ready = self.native('/api/generate', {'model': alias, 'prompt': 'Reply with READY only.',
+        ready = self.native('/api/generate', {'model': alias, 'prompt': 'Reply with READY only.', 'think': False,
             'stream': False, 'keep_alive': '10m', 'options': {'num_ctx': self.config['num_ctx'], 'num_predict': 16}})
         if not re.fullmatch(r'\s*READY[.!]?\s*', ready.get('response', ''), re.IGNORECASE):
             raise RuntimeError('Model did not answer READY: '+str(ready.get('response', ''))[:400])
-        probe = self.native('/api/chat', {'model':alias, 'stream':False, 'keep_alive':'10m',
+        probe = self.native('/api/chat', {'model':alias, 'stream':False, 'keep_alive':'10m', 'think':False,
             'messages':[{'role':'user','content':'Call the cs_ready function now. Do not answer with text.'}],
             'tools':[{'type':'function','function':{'name':'cs_ready','description':'Check that coding tools work. No side effects.', 'parameters':{'type':'object','properties':{},'required':[]}}}],
             'options':{'num_ctx':self.config['num_ctx'], 'num_predict':128, 'temperature':0}})
