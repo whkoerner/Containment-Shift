@@ -128,6 +128,36 @@ Low memory/disk or high reported GPU temperature stops further work.
 
 ## Configuration and recovery
 
+### 32K context
+
+The current controller requests 32768 context tokens by default. `num_ctx` in
+`.workforce/config.json` overrides profile context sizes for every model call;
+null explicitly restores the profile default. The allowed range is 1024-131072.
+Model support and available memory still determine whether a requested size can
+run successfully. Quiet/Balanced/Maximum retain their output and task budgets.
+The source-excerpt budget also follows the configured context; the controller
+still retrieves relevant files instead of filling the entire window needlessly.
+
+For an already-installed controller from the earlier setup, use the separate
+32K update ZIP: **Stop and Save**, wait for **Supervisor alive: False**, close the
+old status window, extract the update ZIP, then double-click
+**ENABLE_32K_CONTEXT.cmd**. It verifies pinned old/new controller hashes, respects
+the same Windows byte-range project lock as Python, compiles the replacement,
+retains one original controller/config backup, sets `num_ctx` to 32768, raises
+the inference timeout to at least 900 seconds, and commits only the reviewed
+controller on the existing `agent/` branch. Other staged/untracked changes stay
+untouched. Unknown or staged controller edits block the update. It does not
+modify the active supervisor, change shared Ollama settings, or pull model weights.
+
+Use the normal Start shortcut afterward. The dashboard displays the requested
+context once inference begins; `ollama ps` shows the allocated CONTEXT and
+PROCESSOR split. Verify 32768 and GPU placement again. A 14B model that fitted
+entirely on GPU at 4096 tokens may need CPU offloading at 32768. The updater does
+not silently lower context or guarantee the larger cache fits the laptop GPU.
+
+This changes the agent's API `options.num_ctx`. Changing a general Ollama setting
+alone cannot override a smaller value explicitly sent by an older controller.
+
 Edit `.workforce/config.json` with Notepad while the agent is stopped:
 
 - `profile`: `Quiet`, `Balanced`, or `Maximum`.

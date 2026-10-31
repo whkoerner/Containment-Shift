@@ -259,15 +259,32 @@ class Fixture(unittest.TestCase):
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
         try:
-            self.app.config.update(model="fixture-model", ollama=f"http://127.0.0.1:{server.server_port}")
+            self.app.config.update(model="fixture-model", ollama=f"http://127.0.0.1:{server.server_port}", num_ctx=None)
             self.assertEqual(self.app.model("Reviewer", {"fixture": True}), {"approved": True})
             self.assertEqual(server.seen["model"], "fixture-model")
             self.assertFalse(server.seen["stream"])
+            self.assertEqual(server.seen["options"]["num_ctx"], 8192)
+            self.app.config["num_ctx"] = 32768
+            self.assertEqual(self.app.model("Reviewer", {"fixture": True}), {"approved": True})
+            self.assertEqual(server.seen["options"]["num_ctx"], 32768)
+            self.assertEqual(server.seen["options"]["num_predict"], 4096)
+            self.assertEqual(self.app.state["requested_context"], 32768)
             self.assertTrue((self.app.state_dir / "events.jsonl").exists())
         finally:
             server.shutdown()
             server.server_close()
             thread.join()
+
+    def test_context_override_validation_and_profile_defaults(self):
+        self.assertEqual(self.app.model_limits(), (32768, 4096))
+        self.app.config["num_ctx"] = None
+        self.assertEqual(self.app.model_limits(), (8192, 4096))
+        self.app.config.update(profile="Quiet", num_ctx=32768)
+        self.assertEqual(self.app.model_limits(), (32768, 2048))
+        for invalid in [0, -1, True, 32768.0, "32768", 999999]:
+            self.app.config["num_ctx"] = invalid
+            with self.subTest(value=invalid), self.assertRaises(ValueError):
+                self.app.model_limits()
 
     def test_end_to_end_runtime_with_explicit_unity_research_fixtures(self):
         # Real Git, journal, subprocess infrastructure, report and resume state; no Unity claim.

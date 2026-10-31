@@ -14,6 +14,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -50,4 +52,10 @@ jobs:
         shell: powershell
         run: |
           try { ./tools/workforce/Test-Checkout.ps1 }
+          catch { Write-Output ("::error::" + $_.Exception.Message); throw }
+      - name: Test 32K updater in Windows PowerShell 5.1
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          try { ./tools/workforce/Test-Context.ps1 }
           catch { Write-Output ("::error::" + $_.Exception.Message); throw }

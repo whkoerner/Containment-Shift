@@ -35,6 +35,7 @@ DEFAULTS = {
     "push": True, "max_hours": 8, "max_attempts": 3, "min_free_gb": 10,
     "min_available_ram_gb": 3, "inference_timeout": 300,
     "feedback_folders": [],
+    "num_ctx": 32768,
 }
 
 
@@ -388,10 +389,18 @@ class Workforce:
         atomic(target, result)
         return result
 
+    def model_limits(self):
+        profile_ctx, output_budget, _ = PROFILES[self.config["profile"]]
+        configured = self.config.get("num_ctx")
+        context = profile_ctx if configured is None else configured
+        if type(context) is not int or not 1024 <= context <= 131072:
+            raise ValueError("num_ctx must be an integer from 1024 to 131072, or null to use the profile default")
+        return context, output_budget
+
     def model(self, role, payload):
         self.check_stop()
-        self.save(phase=role, model_activity="Starting local inference")
-        input_ctx, output_budget, _ = PROFILES[self.config["profile"]]
+        input_ctx, output_budget = self.model_limits()
+        self.save(phase=role, model_activity="Starting local inference", requested_context=input_ctx)
         input_file = self.state_dir / "model-input.json"
         output_file = self.state_dir / "model-output.json"
         output_file.unlink(missing_ok=True)
@@ -408,6 +417,7 @@ class Workforce:
             raise RuntimeError("Ollama worker: " + result["error"])
         text = result["message"]["content"]
         self.log("inference", role=role, seconds=round(time.monotonic() - start, 2),
+                 num_ctx=input_ctx,
                  eval_count=result.get("eval_count"), eval_duration=result.get("eval_duration"))
         self.save(model_activity="Idle", last_inference_seconds=round(time.monotonic() - start, 2))
         return json.loads(text)
@@ -415,7 +425,7 @@ class Workforce:
     def context(self):
         paths = ["Packages/manifest.json", "ProjectSettings/ProjectVersion.txt", "ProjectSettings/ProjectSettings.asset"]
         paths += sorted(p.relative_to(self.project).as_posix() for p in (self.project / "Assets/ContainmentShift/Scripts").glob("*.cs"))
-        result, remaining = {}, PROFILES[self.config["profile"]][0] * 2
+        result, remaining = {}, self.model_limits()[0] * 2
         for relative in paths:
             data = (self.project / relative).read_text(encoding="utf-8-sig")
             if relative.endswith("ProjectSettings.asset"):
@@ -894,6 +904,7 @@ def dashboard(agent, feedback=False):
                     f"Last verified: {state.get('last_verified_feature', 'None')}\nElapsed: {state.get('elapsed_seconds', 0)}s\n"
                     f"Branch: {state.get('branch', '')}\nCommit: {state.get('last_commit', '')}\nLast pushed: {state.get('last_pushed_commit', '')}\n"
                     f"Model: {state.get('inventory', {}).get('model', '')} | {state.get('model_activity', 'Idle')}\n"
+                    f"Requested context: {state.get('requested_context', 'Not requested yet')} tokens\n"
                     f"Blocker: {str(state.get('error', ''))[-3000:]}\nPush status: {state.get('publication_error', 'OK')}\n\n")
             for task in agent.tasks:
                 text += task["id"] + ": " + state.get("tasks", {}).get(task["id"], {}).get("status", "pending") + "\n  " + task["acceptance"] + "\n"

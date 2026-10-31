@@ -1,5 +1,13 @@
 # Agent handoff
 
+Context update: current controller defaults to 32768 and supports per-config
+`num_ctx` overrides; explicit null uses the profile. Output/task budgets remain
+profile based. `Set-Context.ps1` plus its bundled pinned controller supports a
+stopped-only update of the known earlier runtime, preserves backups and other
+Git work, and commits only tools/workforce/agent.py on the current agent branch.
+Do not assume GPU placement at 4K proves full GPU placement at 32K. No actual
+32K GPU allocation has been observed on the user's laptop yet.
+
 Setup `preserve-edits-fix-3` handles the next reported blockers: quietly select
 supported Python (prefer 3.12) and leave a dirty original project intact while
 using one linked Documents/ContainmentShift-Workforce checkout. Source committed

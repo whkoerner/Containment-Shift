@@ -10,6 +10,12 @@
 - Next: open this checkout through Unity Hub, compile and test movement.
 # Workforce implementation — October 30, 2026
 
+32K context requested: added default 32768-token API requests, a config override,
+matching retrieval budgets, and a requested-context dashboard/log field. A small
+stopped-only updater deploys pinned reviewed code and settings without repeating
+full installation. Actual 32K inference speed and GPU allocation on the laptop
+remain to be measured; the earlier manual result established 100% GPU at 4096.
+
 Next setup repair: select a supported Python candidate quietly and preserve the
 reported dirty original checkout by using one linked workforce checkout. No
 automatic commit/publication/import of unseen uncommitted user files is attempted.
