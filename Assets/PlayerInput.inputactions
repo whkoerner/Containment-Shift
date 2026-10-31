@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &6337783595048157735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f6d35d54eae7cdfaaee269fbbb2570}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionsAssetDatabaseGUID: b80695b96baf4374db691a186f5cb157
+  defaultControls:
+  - name: Move
+    type: Unity.Netcode.LowLevelApi.Internal.Vector2
+    actions:
+    - path: /move/capture
+      name: Capture
+      type: Unity.Netcode.LowLevelApi.Internal.KeyCaptureAction
+      bindings:
+      - action: /move/capture/capture
+        eventDataId: 0
+        isComposite: 1
+        isPartOfComposite: 0
+        paths: []
+        actions: []
+        interactionType: 0
+        interactors:
+        - path: /move/capture/a
+          name: A
+          type: Unity.Netcode.LowLevelApi.Internal.KeyAction
+          bindings:
+          - action: /move/capture/a/left
+            eventDataId: 0
+            isComposite: 1
+            isPartOfComposite: 0
+            paths: []
+            actions: []
+            interactionType: 0
+            interactors:
+            - path: /move/capture/a/s/a
+              name: WASD Movement Left
+              type: Unity.Netcode.LowLevelApi.Internal.KeyboardStateAction
+              bindings:
+              - action: /move/capture/a/s/a/physical-key-state/pressevent
+                id: 17
+                isComposite: 0
+                isPartOfComposite: 0
+                paths: []
+                actions: []
+                interactionType: 2
+                interactors: []
+          - path: /move/capture/a/s/d
+            name: WASD Movement Right
+            type: Unity.Netcode.LowLevelApi.Internal.KeyboardStateAction
+            bindings:
+            - action: /move/capture/a/s/d/physical-key-state/pressevent
+              id: 223
+              isComposite: 0
+              isPartOfComposite: 0
+              paths: []
+              actions: []
+              interactionType: 2
+              interactors: []
+          - path: /move/capture/a/s/w
+            name: WASD Movement Forward
+            type: Unity.Netcode.LowLevelApi.Internal.KeyboardStateAction
+            bindings:
+            - action: /move/capture/a/s/w/physical-key-state/pressevent
+              id: 258
+              isComposite: 0
+              isPartOfComposite: 0
+              paths: []
+              actions: []
+              interactionType: 2
+              interactors: []
+          - path: /move/capture/a/s/s
+            name: WASD Movement Backward
+            type: Unity.Netcode.LowLevelApi.Internal.KeyboardStateAction
+            bindings:
+            - action: /move/capture/a/s/s/physical-key-state/pressevent
+              id: 253
+              isComposite: 0
+              isPartOfComposite: 0
+              paths: []
+              actions: []
+              interactionType: 2
+              interactors: []
+    - path: /sprint/capture
+      name: Sprint Capture
+      type: Unity.Netcode.LowLevelApi.Internal.ToggleAction
+      bindings:
+      - action: /sprint/capture/capture
+        eventDataId: 0
+        isComposite: 1
+        isPartOfComposite: 0
+        paths: []
+        actions: []
+        interactionType: 0
+        interactors:
+        - path: /sprint/capture/a
+          name: Sprint Left Shift
+          type: Unity.Netcode.LowLevelApi.Internal.KeyboardAction
+          bindings:
+          - action: /sprint/capture/a/leftShift-key-state/toggleevent
+            id: 257
+            isComposite: 0
+            isPartOfComposite: 0
+            paths: []
+            actions: []
+            interactionType: 0
+            interactors: []
+    - path: /jump/action
+      name: Jump
+      type: Unity.Netcode.LowLevelApi.Internal.ToggleAction
+      bindings:
+      - action: /jump/action/true-value/toggleevent
+        eventDataId: 0
+        isComposite: 1
+        isPartOfComposite: 0
+        paths: []
+        actions: []
+        interactionType: 0
+        interactors:
+        - path: /jump/action/space-key-state/pressstate
+          name: Jump Space Key Press
+          type: Unity.Netcode.LowLevelApi.Internal.KeyboardStateAction
+          bindings:
+          - action: /jump/action/space-key-state/pressevent
+            id: 236
+            isComposite: 0
+            isPartOfComposite: 0
+            paths: []
+            actions: []
+            interactionType: 2
+            interactors: []
+    - name: Look
+      type: Unity.Netcode.LowLevelApi.Internal.Vector2
+      actions:
+      - path: /look/capture
+        name: Look Capture
+        type: Unity.Netcode.LowLevelApi.Internal.MouseButtonAction
+        bindings:
+        - action: /look/capture/left-mouse-button/pressstate
+          eventDataId: 0
+          isComposite: 1
+          isPartOfComposite: 0
+          paths: []
+          actions: []
+          interactionType: 0
+          interactors:
+          - path: /look/capture/a
+            name: Look Mouse Capture
+            type: Unity.Netcode.LowLevelApi.Internal.MouseButtonAction
+            bindings:
+            - action: /look/capture/right-y-value/valuechangedevent
+              id: 513
+              isComposite: 0
+              isPartOfComposite: 0
+              paths: []
+              actions: []
+              interactionType: 8
+              interactors: []
+        - path: /look/axis
+          name: Look Axis X
+          type: Unity.Netcode.LowLevelApi.Internal.MouseAxisAction
+          bindings:
+          - action: /look/axis/leftX-value/valuechangedevent
+            id: 503
+            isComposite: 0
+            isPartOfComposite: 0
+            paths: []
+            actions: []
+            interactionType: 8
+            interactors: []
+        - path: /look/axis/y
+          name: Look Axis Y Pitch
+          type: Unity.Netcode.LowLevelApi.Internal.MouseAxisAction
+          bindings:
+          - action: /look/axis/rightY-value/valuechangedevent
+            id: 514
+            isComposite: 0
+            isPartOfComposite: 0
+            paths: []
+            actions: []
+            interactionType: 8
+            interactors: []

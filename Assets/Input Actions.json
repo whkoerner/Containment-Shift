@@ -1,0 +1,108 @@
+{
+    "name": "PlayerInput",
+    "type": "KeyboardGameplayActions",
+    "description": "Co-op Horror player input actions using Unity Input System",
+    "bindings": [
+        {
+            "path": "/move/capture",
+            "name": "WASD Movement Capture",
+            "interactions": ["/a", "/d"],
+            "groups": [],
+            "action": "/capture",
+            "isComposite": true,
+            "isPartOfComposite": false
+        },
+        {
+            "path": "/move/left",
+            "name": "Move Left",
+            "interactions": ["/move/capture/s/a"],
+            "groups": [],
+            "action": "/left",
+            "isComposite": true,
+            "isPartOfComposite": false
+        },
+        {
+            "path": "/move/right", 
+            "name": "Move Right",
+            "interactions": ["/move/capture/s/d"],
+            "groups": [],
+            "action": "/right",
+            "isComposite": true,
+            "isPartOfComposite": false
+        },
+        {
+            "path": "/move/up",
+            "name": "Move Forward",
+            "interactions": ["/capture/s/w"],
+            "groups": [],
+            "action": "/up",
+            "isComposite": true,
+            "isPartOfComposite": false
+        },
+        {
+            "path": "/move/down",
+            "name": "Move Backward",  
+            "interactions": ["/capture/s/s"],
+            "groups": [],
+            "action": "/down",
+            "isComposite": true,
+            "isPartOfComposite": false
+        },
+        {
+            "path": "/sprint/capture",
+            "name": "Sprint / Run Action Capture",
+            "interactions": ["/a/leftShift"],
+            "groups": [],
+            "action": "/capture",
+            "isComposite": true,
+            "isPartOfComposite": false
+        },
+        {
+            "path": "/sprint/action",
+            "name": "Sprint Action",
+            "interactions": ["/sprint/capture/a"],
+            "groups": [],
+            "action": "/true",
+            "isComposite": true,
+            "isPartOfComposite": false
+        },
+        {
+            "path": "/jump/action",
+            "name": "Jump Action",
+            "interactions": ["/capture/s/Space"],
+            "groups": [],
+            "action": "/true",
+            "isComposite": true,
+            "isPartOfComposite": false
+        },
+        {
+            "path": "/look/capture",
+            "name": "Mouse Look Capture",
+            "interactions": ["/a/leftMouse"],
+            "groups": [],
+            "action": "/capture",
+            "isComposite": true,
+            "isPartOfComposite": false
+        },
+        {
+            "path": "/look/axis",
+            "name": "Look Axis (mouse delta)",
+            "interactions": ["/mouse/delta"],
+            "groups": [],
+            "action": "/leftX",
+            "isComposite": true,
+            "isPartOfComposite": false
+        },
+        {
+            "path": "/look/axis/y",
+            "name": "Look Y Axis (pitch)",
+            "interactions": ["/mouse/delta/y"],
+            "groups": [],
+            "action": "/rightY",
+            "isComposite": true,
+            "isPartOfComposite": false
+
+
+        }
+    ]
+}
