@@ -46,6 +46,7 @@ class Overseer(agent.Workforce):
                 stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, env=env,
                 creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
             record = None
+            descendants = {}
             started = time.monotonic()
             try:
                 try:
@@ -58,6 +59,15 @@ class Overseer(agent.Workforce):
                 last = 0
                 while process.poll() is None:
                     self.check_stop()
+                    if record:
+                        with contextlib.suppress(agent.psutil.Error):
+                            for child in agent.psutil.Process(process.pid).children(recursive=True):
+                                key = (child.pid, child.create_time())
+                                if key not in descendants:
+                                    owned = {'pid':key[0], 'created':key[1]}
+                                    descendants[key] = owned
+                                    self.children.append(owned)
+                            self.write_owner()
                     if time.monotonic() - started > timeout:
                         raise TimeoutError(f'Worker exceeded {timeout}s; see {log}')
                     if time.monotonic() - last > 1:
@@ -75,6 +85,13 @@ class Overseer(agent.Workforce):
                     process.wait(timeout=5)
                 raise
             finally:
+                # MCP/build helpers may survive a normally exiting CLI. Reap the
+                # descendants observed while it was alive, using creation times.
+                for owned in descendants.values():
+                    with contextlib.suppress(agent.psutil.Error):
+                        agent.terminate_owned(owned)
+                    if owned in self.children:
+                        self.children.remove(owned)
                 if record in self.children:
                     self.children.remove(record)
                 self.write_owner()

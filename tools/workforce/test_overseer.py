@@ -106,6 +106,21 @@ class OverseerTests(unittest.TestCase):
         self.assertTrue((self.root/'arbitrary.py').exists())
 
     @unittest.skipIf(PROC_MISMATCH, 'Managed cloud process namespace; native Windows/Ubuntu CI exercises this')
+    def test_normal_worker_exit_reaps_surviving_helper(self):
+        import sys
+        self.app.running = True; self.app.run_id = 'test-helper'
+        record_file = self.root/'helper.json'
+        code = ('import subprocess,sys,time,json,psutil; from pathlib import Path; '
+            'p=subprocess.Popen([sys.executable,"-c","import time; time.sleep(30)"]); '
+            'Path(sys.argv[1]).write_text(json.dumps({"pid":p.pid,"created":psutil.Process(p.pid).create_time()})); '
+            'time.sleep(.8)')
+        try:
+            self.app.live_command([sys.executable, '-c', code, record_file], self.root/'helper.log', 10)
+            self.assertIsNone(agent.exact_process(agent.read_json(record_file)))
+            self.assertEqual(self.app.children, [])
+        finally: self.app.running = False
+
+    @unittest.skipIf(PROC_MISMATCH, 'Managed cloud process namespace; native Windows/Ubuntu CI exercises this')
     def test_owned_live_worker_cancelled_and_reaped(self):
         import subprocess, sys, threading, time
         self.app.running = True; self.app.run_id = 'test-owned'
