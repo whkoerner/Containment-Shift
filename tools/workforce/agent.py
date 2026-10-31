@@ -54,7 +54,17 @@ def atomic(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(path.name + "." + uuid.uuid4().hex + ".tmp")
     temporary.write_text(json.dumps(value, indent=2, ensure_ascii=False), encoding="utf-8")
-    os.replace(temporary, path)
+    # Readers (including the status dashboard) can briefly deny delete/rename
+    # sharing on Windows. Keep the original state and the recovery .tmp on
+    # failure; retry only transient Windows permission/sharing failures.
+    for attempt in range(20):
+        try:
+            os.replace(temporary, path)
+            break
+        except PermissionError:
+            if os.name != "nt" or attempt == 19:
+                raise
+            time.sleep(min(0.05 * (attempt + 1), 0.25))
 
 
 def digest(data):
