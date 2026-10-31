@@ -136,9 +136,19 @@ class Overseer(agent.Workforce):
             'stream': False, 'keep_alive': '10m', 'options': {'num_ctx': self.config['num_ctx'], 'num_predict': 16}})
         if not re.fullmatch(r'\s*READY[.!]?\s*', ready.get('response', ''), re.IGNORECASE):
             raise RuntimeError('Model did not answer READY: '+str(ready.get('response', ''))[:400])
+        probe = self.native('/api/chat', {'model':alias, 'stream':False, 'keep_alive':'10m',
+            'messages':[{'role':'user','content':'Call the cs_ready function now. Do not answer with text.'}],
+            'tools':[{'type':'function','function':{'name':'cs_ready','description':'Check that coding tools work. No side effects.', 'parameters':{'type':'object','properties':{},'required':[]}}}],
+            'options':{'num_ctx':self.config['num_ctx'], 'num_predict':128, 'temperature':0}})
+        if not any(c.get('function', {}).get('name')=='cs_ready' for c in probe.get('message', {}).get('tool_calls', [])):
+            raise RuntimeError('Ollama answered text but did not produce a real tool call. OpenCode needs tool calling. Set model in .workforce/config.json to the local Ollama model used by your working OpenCode session; no cloud fallback was used.')
         self.worker_model = alias
         self.config['model'] = alias
         self.save(phase='Ollama ready; planning queue', model_activity='READY confirmed', ollama_ready=True, worker_model=alias)
+
+    def verify(self, method='Compile'):
+        self.save(live_log=str(self.state_dir/('unity-'+method.lower()+'.log')))
+        return super().verify(method)
 
     def plan_queue(self):
         previous = agent.read_json(self.state_dir/'overseer-queue.json', {})

@@ -6,8 +6,11 @@ $state = Join-Path $project '.workforce'
 $python = (Get-Command python -CommandType Application -All | Where-Object { $_.Source -notmatch 'WindowsApps' } | Select-Object -First 1).Source
 $git = (Get-Command git -CommandType Application -All | Select-Object -First 1).Source
 function FixtureGit([string[]]$Arguments) {
+    $ErrorActionPreference = 'Continue'
     $out = @(& $git -C $project @Arguments 2>&1)
-    if ($LASTEXITCODE -ne 0) { throw ($out -join "`n") }
+    $code = $LASTEXITCODE
+    $ErrorActionPreference = 'Stop'
+    if ($code -ne 0) { throw ($out -join "`n") }
     return ($out -join "`n").Trim()
 }
 try {

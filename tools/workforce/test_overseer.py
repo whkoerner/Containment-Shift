@@ -38,7 +38,9 @@ class OverseerTests(unittest.TestCase):
         calls = []
         def native(endpoint, body):
             calls.append((endpoint,body))
-            return {'status':'success'} if endpoint=='/api/create' else {'response':'READY'}
+            if endpoint=='/api/create': return {'status':'success'}
+            if endpoint=='/api/chat': return {'message':{'tool_calls':[{'function':{'name':'cs_ready'}}]}}
+            return {'response':'READY'}
         with patch.object(agent, 'request_json', return_value={}), patch.object(self.app, 'inventory'), patch.object(self.app, 'native', side_effect=native):
             self.app.bootstrap()
         self.assertTrue(self.app.state['ollama_ready'])
@@ -47,6 +49,8 @@ class OverseerTests(unittest.TestCase):
         self.assertEqual(calls[1][1]['options']['num_ctx'], 32768)
         with patch.object(agent, 'request_json', return_value={}), patch.object(self.app, 'inventory'), patch.object(self.app, 'native', side_effect=[{}, {'response':'NO'}]):
             with self.assertRaisesRegex(RuntimeError, 'READY'): self.app.bootstrap()
+        with patch.object(agent, 'request_json', return_value={}), patch.object(self.app, 'inventory'), patch.object(self.app, 'native', side_effect=[{}, {'response':'READY'}, {'message':{'content':'pretend tool call'}}]):
+            with self.assertRaisesRegex(RuntimeError, 'real tool call'): self.app.bootstrap()
 
     def test_worker_config_local_model_and_broader_unity_scope(self):
         with patch.object(self.app, 'editor', return_value='Unity.exe'):
