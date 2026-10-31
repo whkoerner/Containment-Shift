@@ -208,6 +208,7 @@ class Overseer(agent.Workforce):
             'On Windows, run Unity with valid PowerShell argument syntax, not bash-style escaped paths. '
             'Never report compilation passed without a successful Unity compile; the supervisor will independently verify. '
             'Inspect errors and implement/test the change; do not just provide advice. Preserve useful partial work on failure. '
+            'Create the final report only at the EXACT absolute .workforce result path below; do not use project-root opencode-result.json. '
             'Write '+str(result)+' as JSON with status (implemented or blocked), summary, tests (actual results only), and failure (empty on success). '
             'Project: '+str(self.project)+' Editor: '+self.version()+' Editor executable: '+str(self.editor())+
             '\nTask: '+json.dumps(task)+'\nAttempt: '+str(attempt)+
@@ -215,6 +216,35 @@ class Overseer(agent.Workforce):
         request = self.state_dir/'opencode-request.json'
         agent.atomic(request, {'config': config, 'model': 'ollama/'+self.worker_model, 'prompt': prompt})
         return request, result
+
+    def collect_misplaced_worker_result(self, task, attempt, result_file):
+        """Archive only the known stray worker-result filename, never source files.
+
+        A completion report is a model claim. Unity verification remains mandatory.
+        Only called after a worker attempt, and an existing correct report wins.
+        """
+        stray = self.project / 'opencode-result.json'
+        if not stray.exists():
+            return
+        if not stray.is_file() or stray.stat().st_size > 1000000:
+            raise RuntimeError('Unexpected root opencode-result.json type or size; preserved for review')
+        original = stray.read_bytes()
+        folder = self.state_dir / 'misplaced-worker-reports'
+        folder.mkdir(parents=True, exist_ok=True)
+        archive = folder / (task['id']+'-attempt-'+str(attempt)+'-'+uuid.uuid4().hex+'.json')
+        archive.write_bytes(original)
+        if archive.read_bytes() != original:
+            raise RuntimeError('Failed to verify misplaced report archive; root copy preserved')
+        if not result_file.exists():
+            try:
+                value = json.loads(original.decode('utf-8-sig'))
+            except (ValueError, UnicodeError):
+                value = None
+            if isinstance(value, dict) and isinstance(value.get('status'), str):
+                agent.atomic(result_file, value)
+        stray.unlink()
+        self.log('misplaced_worker_report_archived', task=task['id'], attempt=attempt,
+                 archive=str(archive), restored=bool(result_file.exists()))
 
     def checkpoint(self, message):
         paths = set(self.git('diff', '--name-only', '-z', 'HEAD').split('\0'))
@@ -266,6 +296,7 @@ class Overseer(agent.Workforce):
                             event = json.loads(line)
                             if event.get('type') == 'error':
                                 raise RuntimeError('OpenCode error: '+json.dumps(event)[-3000:])
+                    self.collect_misplaced_worker_result(task, attempt, result_file)
                     report = agent.read_json(result_file, {})
                     if report.get('status') != 'implemented' or not report.get('summary'):
                         raise RuntimeError('Worker did not produce an implemented result: '+json.dumps(report)[-4000:])
@@ -279,6 +310,9 @@ class Overseer(agent.Workforce):
                     state.update(status='interrupted', error='Stopped; partial edits preserved, no test acceptance claimed')
                     raise
                 except Exception as exc:
+                    # Even unsuccessful workers can leave a stray completion file.
+                    # Archive it before attempting a scope-limited checkpoint.
+                    self.collect_misplaced_worker_result(task, attempt, self.state_dir/'opencode-result.json')
                     state.update(status='failed' if attempt==int(self.config['max_attempts']) else 'retrying', error=str(exc))
                     self.log('opencode_task_failed', task=task['id'], attempt=attempt, error=str(exc), log=str(log))
                     # Checkpoint failed work explicitly as unverified before next task.
