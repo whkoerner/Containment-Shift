@@ -90,6 +90,10 @@
     "attempts": 0,
     "status": "researched",
     "code_commit": "26779f532e8933b1381be793960bd247312f14cd"
+  },
+  "network-ownership": {
+    "status": "dependency_blocked",
+    "error": "Waiting for verified dependencies: foundation-input"
   }
 }
 

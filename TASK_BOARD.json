@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-31T02:20:54Z",
+  "updated": "2026-10-31T02:21:02Z",
   "branch": "agent/workforce-20261030-165348-6e64ce",
-  "code_commit": "c22844968f8e54084f682f53808d1480e153803f",
-  "status": "Running",
+  "code_commit": "02bf01b150fc2e7ec28528bb1eff4c0d27ca91b7",
+  "status": "Stopped",
   "tasks": {
     "foundation-input": {
       "attempts": 3,
@@ -93,6 +93,10 @@
       "attempts": 0,
       "status": "researched",
       "code_commit": "26779f532e8933b1381be793960bd247312f14cd"
+    },
+    "network-ownership": {
+      "status": "dependency_blocked",
+      "error": "Waiting for verified dependencies: foundation-input"
     }
   },
   "blocker": "",
