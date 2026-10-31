@@ -1,11 +1,11 @@
 {
-  "updated": "2026-10-31T01:47:05Z",
+  "updated": "2026-10-31T01:48:18Z",
   "branch": "agent/workforce-20261030-165348-6e64ce",
-  "code_commit": "09cd9c9eaed6a2636ae45d86925b97d381f8f876",
+  "code_commit": "c88896425bcb2265a9099514e1ece615bc5db2a8",
   "status": "Running",
   "tasks": {
     "foundation-input": {
-      "attempts": 1,
+      "attempts": 2,
       "error": "Worker did not produce an implemented result: {}",
       "status": "retrying",
       "manual_required": true,
@@ -40,7 +40,7 @@
   "scorecard": {
     "human_confirmed_tasks": 0,
     "awaiting_human_tasks": 0,
-    "failed_attempts": 1,
+    "failed_attempts": 2,
     "automated_evidence_records": 0,
     "meaning": "Evidence counts, not an arbitrary model reward. Human gates alone unlock dependent gameplay work."
   }

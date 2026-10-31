@@ -2,7 +2,7 @@
 
 {
   "foundation-input": {
-    "attempts": 1,
+    "attempts": 2,
     "error": "Worker did not produce an implemented result: {}",
     "status": "retrying",
     "manual_required": true,
