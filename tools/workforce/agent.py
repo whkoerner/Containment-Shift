@@ -668,7 +668,7 @@ class Workforce:
         if report["blocker"]:
             lines += ["", "## Blocker", "", str(report["blocker"])[-8000:]]
         lines += ["", "## Not verified", "", report["unverified"], "", "[Real-time tests](docs/REAL_TIME_TESTS.md)"]
-        text = "\n".join(lines) + "\n"
+        text = "\n".join(line.rstrip() for line in "\n".join(lines).splitlines()) + "\n"
         (root / "DEVELOPMENT_PROGRESS.md").write_text(text, encoding="utf-8")
         (root / "AGENT_HANDOFF.md").write_text(text + "\nResume: click START CONTAINMENT SHIFT AGENT. State and exact errors are in ignored `.workforce/`. No active runtime self-modification is allowed.\n", encoding="utf-8")
         (root / "TEST_RESULTS.md").write_text("# Test evidence\n\n" + json.dumps(self.state["tasks"], indent=2) + "\n\nBuild success is not gameplay acceptance. Synthetic input smoke is not a physical keyboard or two-client test.\n", encoding="utf-8")

@@ -204,6 +204,9 @@ class Overseer(agent.Workforce):
             'Do not touch other project folders, tools/workforce, .git, supervisor/config/stop controls, or launch background/daemon processes. '
             'Do not commit, push, change branches, or claim human verification. The supervisor checkpoints your work. '
             'If using Unity MCP, confirm it targets this EXACT project; otherwise use the configured Editor in batch mode. Close any Unity instance you started before returning. '
+            'Inspect actual existing class members and installed NGO APIs before edits; never invent methods or fields. '
+            'On Windows, run Unity with valid PowerShell argument syntax, not bash-style escaped paths. '
+            'Never report compilation passed without a successful Unity compile; the supervisor will independently verify. '
             'Inspect errors and implement/test the change; do not just provide advice. Preserve useful partial work on failure. '
             'Write '+str(result)+' as JSON with status (implemented or blocked), summary, tests (actual results only), and failure (empty on success). '
             'Project: '+str(self.project)+' Editor: '+self.version()+' Editor executable: '+str(self.editor())+
@@ -226,7 +229,14 @@ class Overseer(agent.Workforce):
             raise RuntimeError('Unexpected staged files preserved; review index')
         if paths:
             self.git('add', '-A', '--', *sorted(paths), interruptible=False)
-            self.git('diff', '--cached', '--check', interruptible=False)
+            # Keep unverified failures as Git checkpoints, even when a model added trailing spaces.
+            # Successful feature checkpoints still require clean whitespace.
+            if message.startswith('wip: unverified attempt '):
+                _, check_code = self.command(['git', 'diff', '--cached', '--check'], check=False, interruptible=False)
+                if check_code:
+                    self.log('unverified_whitespace_warning', task=message, details=self.last_output[-4000:])
+            else:
+                self.git('diff', '--cached', '--check', interruptible=False)
             self.git('commit', '-m', message, interruptible=False)
         revision = self.git('rev-parse', 'HEAD', interruptible=False)
         self.save(last_commit=revision)
