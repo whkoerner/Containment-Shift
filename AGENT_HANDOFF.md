@@ -1,16 +1,16 @@
 # Development progress
 
-Updated: 2026-10-31T02:18:40Z
+Updated: 2026-10-31T02:20:54Z
 
 Branch: `agent/workforce-20261030-165348-6e64ce`
 
-Latest source/checkpoint commit: `0c297ea9940daf3c948080265fe2274310073cd7`
+Latest source/checkpoint commit: `c22844968f8e54084f682f53808d1480e153803f`
 
 Status: Running
 
 ## Evidence
 
-- foundation-input: **retrying** — Saved backend enables Input System; Unity compile and synthetic Play Mode movement smoke pass; human confirms WASD, look, sprint, jump, collision, Escape and disconnect/reconnect.
+- foundation-input: **failed** — Saved backend enables Input System; Unity compile and synthetic Play Mode movement smoke pass; human confirms WASD, look, sprint, jump, collision, Escape and disconnect/reconnect.
 - network-ownership: **pending** — Owner alone reads input and enables camera; host/client independently move and disconnect cleanly. Independent two-client human verification required.
 - interaction-research: **researched** — Pinned revisions, license bodies, dependency caveats, and integration recommendation saved. No gameplay progress claimed.
 
