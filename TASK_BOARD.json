@@ -1,12 +1,12 @@
 {
-  "updated": "2026-10-31T02:16:53Z",
+  "updated": "2026-10-31T02:18:40Z",
   "branch": "agent/workforce-20261030-165348-6e64ce",
-  "code_commit": "9ac18c53c4d8557c8102c16fdec78d34837d1208",
+  "code_commit": "0c297ea9940daf3c948080265fe2274310073cd7",
   "status": "Running",
   "tasks": {
     "foundation-input": {
-      "attempts": 1,
-      "error": "Close this Unity project before agent verification. No lock files are deleted.",
+      "attempts": 2,
+      "error": "Worker did not produce an implemented result: {}",
       "status": "retrying",
       "manual_required": true,
       "worker_report": {
@@ -48,7 +48,7 @@
   "scorecard": {
     "human_confirmed_tasks": 0,
     "awaiting_human_tasks": 0,
-    "failed_attempts": 1,
+    "failed_attempts": 2,
     "automated_evidence_records": 0,
     "meaning": "Evidence counts, not an arbitrary model reward. Human gates alone unlock dependent gameplay work."
   }

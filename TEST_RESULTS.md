@@ -2,8 +2,8 @@
 
 {
   "foundation-input": {
-    "attempts": 1,
-    "error": "Close this Unity project before agent verification. No lock files are deleted.",
+    "attempts": 2,
+    "error": "Worker did not produce an implemented result: {}",
     "status": "retrying",
     "manual_required": true,
     "worker_report": {
