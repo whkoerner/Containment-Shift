@@ -3,9 +3,28 @@
 {
   "foundation-input": {
     "attempts": 1,
-    "error": "Human playtest feedback requires investigation; preserve original observations:\n{\r\n  \"date\": \"2026-10-31T00:01:31Z\",\r\n  \"comments\": \"Everything worked well with the controlls, movement, and the hosting. Disconnecting and reconnecting did not work.\",\r\n  \"human_confirmed\": false,\r\n  \"task_id\": \"foundation-input\",\r\n  \"tested_commit\": \"UNKNOWN\",\r\n  \"scene\": \"Assets/ContainmentShift/Scenes/Annex_Greybox.unity\",\r\n  \"attachments\": [\r\n    \"C:/Users/whkoe/Pictures/Screenshots/Screenshot 2026-10-30 170038.png\"\r\n  ]\r\n}",
-    "status": "pending",
-    "manual_required": true
+    "error": "Worker did not produce an implemented result: {}",
+    "status": "retrying",
+    "manual_required": true,
+    "worker_report": {
+      "status": "implemented",
+      "summary": "Fixed disconnect/reconnect by adding proper owner object cleanup, player input disabling, and waiting state management in CoopNetworkDebugUI.cs. Disconnect now properly kills the owned NetworkObject, disables all Input System components, and enables a reconnectable waiting screen.",
+      "tests": [
+        {
+          "name": "Unity compilation",
+          "result": "pass"
+        },
+        {
+          "name": "Disconnect button functionality",
+          "result": "manual verification required - UI now properly disconnects and shows waiting state or enables Rejoin button"
+        },
+        {
+          "name": "Reconnect flow",
+          "result": "enabled via waiting screen after disconnect"
+        }
+      ],
+      "failure": ""
+    }
   },
   "interaction-research": {
     "attempts": 0,
