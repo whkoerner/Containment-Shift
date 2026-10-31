@@ -1,13 +1,14 @@
 {
-  "updated": "2026-10-30T23:57:26Z",
+  "updated": "2026-10-31T01:33:56Z",
   "branch": "agent/workforce-20261030-165348-6e64ce",
-  "code_commit": "8708ad88d4116fc5116e8bb257cea57ee1697a78",
-  "status": "Stopped",
+  "code_commit": "3e6215166ac5b5689092695cf27f7129f345a501",
+  "status": "Blocked",
   "tasks": {
     "foundation-input": {
-      "attempts": 3,
-      "error": "Review rejected proposed change: The scene contains multiple AudioListeners, which is not allowed in Unity. The error message indicates that there should be exactly one AudioListener in the scene.",
-      "status": "blocked"
+      "attempts": 1,
+      "error": "Human playtest feedback requires investigation; preserve original observations:\n{\r\n  \"date\": \"2026-10-31T00:01:31Z\",\r\n  \"comments\": \"Everything worked well with the controlls, movement, and the hosting. Disconnecting and reconnecting did not work.\",\r\n  \"human_confirmed\": false,\r\n  \"task_id\": \"foundation-input\",\r\n  \"tested_commit\": \"UNKNOWN\",\r\n  \"scene\": \"Assets/ContainmentShift/Scenes/Annex_Greybox.unity\",\r\n  \"attachments\": [\r\n    \"C:/Users/whkoe/Pictures/Screenshots/Screenshot 2026-10-30 170038.png\"\r\n  ]\r\n}",
+      "status": "pending",
+      "manual_required": true
     },
     "interaction-research": {
       "attempts": 0,
@@ -15,12 +16,12 @@
       "code_commit": "26779f532e8933b1381be793960bd247312f14cd"
     }
   },
-  "blocker": "Review rejected proposed change: The scene contains multiple AudioListeners, which is not allowed in Unity. The error message indicates that there should be exactly one AudioListener in the scene.",
+  "blocker": "Task kind/acceptance missing",
   "unverified": "Standalone and independent multiplayer gameplay; human acceptance unless explicitly recorded.",
   "scorecard": {
     "human_confirmed_tasks": 0,
     "awaiting_human_tasks": 0,
-    "failed_attempts": 3,
+    "failed_attempts": 1,
     "automated_evidence_records": 0,
     "meaning": "Evidence counts, not an arbitrary model reward. Human gates alone unlock dependent gameplay work."
   }
