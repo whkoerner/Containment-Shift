@@ -1,5 +1,22 @@
 # Test results — local workforce implementation
 
+## 32K context update
+
+At `09ec898408c9cbe5825b56d5b4be4d49e1334546`, Windows and Ubuntu CI passed
+the 25 runtime tests, including checking `options.num_ctx: 32768` in the actual
+HTTP request sent to an isolated Ollama-protocol fixture. Windows additionally
+passed the stopped-only updater test under built-in PowerShell 5.1: exact old
+controller replacement, config preservation, one-file Git commit with unrelated
+staged/untracked work preserved, idempotent reapplication, refusal of unknown
+controller edits, and refusal while a real child process owns the project lock.
+Existing dependency, shortcut, and checkout-preservation checks also passed.
+[Observed run](https://github.com/whkoerner/Containment-Shift/actions/runs/41149625838).
+
+Managed-cloud runtime checks: 21 passed; 4 process-ownership tests skipped due
+to the process namespace limitation described below. The updater and real 32K
+Ollama GPU placement have not been run on the user's own laptop. The user's
+posted `ollama ps` output confirms 100% GPU placement at 4096 context only.
+
 ## Preserve-edits setup repair 3
 
 At `bc91199fea395d76b11d7bd55cb2e11ea9af8f29`, Windows CI passed quiet Python
