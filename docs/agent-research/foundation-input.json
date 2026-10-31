@@ -1,0 +1,74 @@
+[
+  {
+    "repository": "Unity-Technologies/InputSystem",
+    "url": "https://github.com/Unity-Technologies/InputSystem",
+    "revision": "54b1581acb600c1f00998505af19a644795ef9b8",
+    "license": "NOASSERTION",
+    "license_text": "Input System © 2023 Unity Technologies\n\nLicensed under the Unity Companion License for Unity-dependent projects (see [https://unity3d.com/legal/licenses/unity_companion_license](https://unity3d.com/legal/licenses/unity_companion_license)).\n\nUnless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.\n",
+    "pushed_at": "2026-10-29T15:13:44Z",
+    "open_issues": 57,
+    "license_permits_candidate_review": false,
+    "compatibility": "REQUIRES_REVIEW against actual Editor and package lock; metadata is not compatibility proof",
+    "imported": false
+  },
+  {
+    "repository": "Unity-Technologies/com.unity.netcode.gameobjects",
+    "url": "https://github.com/Unity-Technologies/com.unity.netcode.gameobjects",
+    "revision": "b335cc47115e603b77818c0127264d657372b10b",
+    "license": "NOASSERTION",
+    "license_text": "Unity Companion License (UCL License)\n\ncom.unity.netcode.gameobjects copyright ©  2021-2024 Unity Technologies\nLicensed under the Unity Companion License for Unity-dependent projects (see https://unity3d.com/legal/licenses/unity_companion_license).\nUnless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.\n\n\n",
+    "pushed_at": "2026-10-30T20:24:06Z",
+    "open_issues": 69,
+    "license_permits_candidate_review": false,
+    "compatibility": "REQUIRES_REVIEW against actual Editor and package lock; metadata is not compatibility proof",
+    "imported": false
+  },
+  {
+    "repository": "Showerss/unity-first-person-controller",
+    "url": "https://github.com/Showerss/unity-first-person-controller",
+    "revision": "b7ef87baaec3fdb2a34525e725525dab157a01f7",
+    "license": "MIT",
+    "license_text": "MIT License\n\nCopyright (c) 2026 Phillip Banky\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "pushed_at": "2026-10-25T01:25:29Z",
+    "open_issues": 0,
+    "license_permits_candidate_review": true,
+    "compatibility": "REQUIRES_REVIEW against actual Editor and package lock; metadata is not compatibility proof",
+    "imported": false
+  },
+  {
+    "repository": "wagenheimer/RewiredHelper",
+    "url": "https://github.com/wagenheimer/RewiredHelper",
+    "revision": "9e56d326b779d544a4d353ce18fd9655e998700b",
+    "license": "NOASSERTION",
+    "license_text": "MIT License\n\nCopyright (c) 2026 Cezar Wagenheimer\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "pushed_at": "2026-10-30T22:27:12Z",
+    "open_issues": 0,
+    "license_permits_candidate_review": false,
+    "compatibility": "REQUIRES_REVIEW against actual Editor and package lock; metadata is not compatibility proof",
+    "imported": false
+  },
+  {
+    "repository": "eviltwo/InputGlyphs",
+    "url": "https://github.com/eviltwo/InputGlyphs",
+    "revision": "c4d4d3beac0a5c71f8db0f31bc931cdd6dc9ba17",
+    "license": "MIT",
+    "license_text": "MIT License\n\nCopyright (c) 2024 DAIKI\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "pushed_at": "2026-10-18T00:26:44Z",
+    "open_issues": 9,
+    "license_permits_candidate_review": true,
+    "compatibility": "REQUIRES_REVIEW against actual Editor and package lock; metadata is not compatibility proof",
+    "imported": false
+  },
+  {
+    "repository": "SupakornSJB/ATITProject",
+    "url": "https://github.com/SupakornSJB/ATITProject",
+    "revision": "6c69b15c86b522a45869a181127b8adceb511f1c",
+    "license": "MIT",
+    "license_text": "MIT License\n\nCopyright (c) 2026 SupakornSJB\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "pushed_at": "2026-10-17T17:35:45Z",
+    "open_issues": 0,
+    "license_permits_candidate_review": true,
+    "compatibility": "REQUIRES_REVIEW against actual Editor and package lock; metadata is not compatibility proof",
+    "imported": false
+  }
+]
