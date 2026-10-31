@@ -11,6 +11,8 @@ try {
     }
     $python = Join-Path $Project '.workforce\venv\Scripts\python.exe'
     $entry = Join-Path $Project 'tools\workforce\agent.py'
+    $overseer = Join-Path $Project 'tools\workforce\overseer.py'
+    if (Test-Path -LiteralPath $overseer -PathType Leaf) { $entry = $overseer }
     $config = Join-Path $Project '.workforce\config.json'
     if (-not (Test-Path -LiteralPath $python)) { throw 'Run Install.ps1 first.' }
     & $python $entry $Action --config $config

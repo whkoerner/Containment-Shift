@@ -253,3 +253,50 @@ equivalent tracking in GitHub. Self-improvement must be proposed on a separate
 branch and installed only while stopped after runtime tests; the active
 supervisor cannot edit or replace itself. A model review is not an OS security
 sandbox. Run on your development checkout under your own account.
+
+## OpenCode overseer update
+
+The newer launcher starts/reuses local Ollama first and requires a real READY
+response at 32768 context. A dedicated Ollama model alias sets context for
+OpenCode's OpenAI-compatible requests, without changing global Ollama settings.
+Then a local overseer plans an ordered queue and launches actual `opencode run`
+workers with the explicitly selected local model. This is distinct from the old
+JSON patch-only controller. Existing global/project OpenCode settings are merged
+by OpenCode; inline local model settings take precedence. Verify Unity MCP targets
+the workforce checkout before using it; no settings are copied from the older
+AI-Playable folder.
+
+Extract the OpenCode overseer update ZIP. Stop and Save the current workforce,
+wait for Supervisor alive False, close its old status window, and stop the
+separate AI-Playable OpenCode session yourself. Double-click
+INSTALL_OPENCODE_OVERSEER.cmd, then use the normal Start shortcut. This updates
+the controller's 32K support plus three launcher/worker files, with backups and
+file-scoped Git commits; it preserves unrelated edits and checks custom versions
+before replacement. No reinstall or automatic project migration is involved.
+
+The controller now owns its OpenCode worker and shows live output. Stop cancels
+that worker and its identified descendants, checkpoints useful partial work as
+unverified, and writes a wrapup. It leaves unrelated OpenCode sessions and an
+existing shared Ollama server alone. A server it starts itself is owned and
+stopped with its run. Emergency Stop interrupts owned processes immediately.
+OpenCode's permissions and instructions are development boundaries, not an OS
+sandbox; the worker can run build/tool commands. No worker self-modification of
+the supervisor is authorized. Runtime/Editor code, settings, assets and package
+configuration can be repaired.
+
+Each task gets up to max_attempts (default 3) and task_timeout (default 1800s).
+After exhaustion it is failed for this run and the scheduler considers the next
+independent task. Dependent gameplay tasks still require actual human acceptance;
+the model cannot waive that gate. Failed tasks can retry on the next Start. Code
+claims require separate supervisor-run Unity compile, smoke and build evidence.
+Research completion is a worker report, not gameplay proof. The overseer records
+outcomes/failures in docs/OVERSEER_REPORT.json plus the existing task board and
+reports, and publishes its agent branch at wrapup. The queue is persisted in
+.workforce/overseer-queue.json and resumed. It does not invent infinite new work
+when all queued tasks are finished or waiting for a person.
+
+Prerequisites: installed OpenCode with run --format/--model/--auto support (the
+existing known CLI interface), supported local Ollama model, correct Unity Editor
+and a clean dedicated agent checkout. Startup failures remain visible and do not
+claim that a worker ran. Real local inference/Unity/MCP/GPU behavior still needs
+verification on the user's laptop; fixture tests cannot establish it.

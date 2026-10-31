@@ -21,6 +21,7 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install -r tools/workforce/requirements.txt
       - run: python -m unittest discover -s tools/workforce -p test_agent.py -v
+      - run: python -m unittest discover -s tools/workforce -p test_overseer.py -v
       - name: Parse Windows setup scripts
         if: runner.os == 'Windows'
         shell: pwsh
@@ -58,4 +59,14 @@ jobs:
         shell: powershell
         run: |
           try { ./tools/workforce/Test-Context.ps1 }
+          catch { Write-Output ("::error::" + $_.Exception.Message); throw }
+      - name: Test OpenCode launcher in Windows PowerShell 5.1
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: ./tools/workforce/Test-OpenCode.ps1
+      - name: Test OpenCode overseer updater in Windows PowerShell 5.1
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          try { ./tools/workforce/Test-OverseerUpdate.ps1 }
           catch { Write-Output ("::error::" + $_.Exception.Message); throw }
